@@ -1,0 +1,14 @@
+.about{
+    margin: .5rem 0 2rem 0;
+}
+
+.about p{
+    font-weight: 400;
+    color: #6e6e6e;
+}
+
+.about li{
+    font-weight: 400;
+    color: #6e6e6e;
+    font-size: 1.5rem;
+}

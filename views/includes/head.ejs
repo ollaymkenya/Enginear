@@ -12,26 +12,30 @@
     <% if (path === '/') { %>
     <link rel="stylesheet" href="/css/index.css">
     <% } %>
+    <% if (path === '/about') { %>
+    <link rel="stylesheet" href="/css/about.css">
+    <% } %>
+    <% if (path === '/about') { %>
+    <link rel="stylesheet" href="/css/contacts.css">
+    <% } %>
 </head>
 
 <body>
-    <input type="checkbox" name="" id="toggle">
-    <label for="toggle" class="hamburger-menu">
-        <span class="line"></span>
-    </label>
-    <nav class="nav">
-        <ul class="nav-list">
-            <li class="nav-item">
-                <a href="/" class="nav-link">ENGIN-NEAR <ion-icon name="cog-outline"></ion-icon></a>
-            </li>
-            <li class="nav-item">
-                <a href="/about" class="nav-link">ABOUT</a>
-            </li>
-            <li class="nav-item">
-                <a href="/contact" class="nav-link">CONTACT</a>
-            </li>
-            <li class="nav-item">
-                <a href="/login" class="nav-link">LOGIN/SIGNUP</a>
-            </li>
-        </ul>
-    </nav>
+    <div class="nav-container"><input type="checkbox" name="" id="toggle">
+        <label for="toggle" class="hamburger-menu">
+            <span class="line"></span>
+        </label>
+        <nav class="nav">
+            <ul class="nav-list">
+                <li class="nav-item">
+                    <a href="/" class="nav-link">ENGIN-NEAR <ion-icon name="cog-outline"></ion-icon></a>
+                </li>
+                <li class="nav-item">
+                    <a href="/about" class="nav-link">ABOUT</a>
+                </li>
+                <li class="nav-item">
+                    <a href="/login" class="nav-link">LOGIN/SIGNUP</a>
+                </li>
+            </ul>
+        </nav>
+    </div>

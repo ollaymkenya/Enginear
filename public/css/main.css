@@ -28,6 +28,15 @@
     --white: #fff;
 }
 
+html{
+    height: 100%;
+}
+
+body{
+    min-height: 100%;
+    display: grid;
+}
+
 * {
     font-family: var(--primary-font);
 }
@@ -130,6 +139,11 @@ li {
     border-color: #ff6452;
 }
 
+
+img{
+    width: 100%;
+}
+
 .hamburger-menu {
     width: 3rem;
     position: absolute;
@@ -178,7 +192,9 @@ li {
     overflow: hidden;
     height: 5rem;
     position: sticky;
+    pointer-events: none;
     top: 0;
+    z-index: 9000;
 }
 
 #toggle:checked~.nav {
@@ -186,6 +202,7 @@ li {
     display: block;
     opacity: 1;
     transform: scale(1);
+    pointer-events: all;
 }
 
 .nav-item {
@@ -223,7 +240,11 @@ li {
 }
 
 footer {
+    bottom: 0;
+    width: 100%;
     padding: 2rem 0;
+    min-height: 360px;
+    margin-top: 2rem;
 }
 
 footer li a{
