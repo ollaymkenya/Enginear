@@ -1,3 +1,5 @@
+const path = require("path");
+
 const express = require("express");
 
 const app = express();
@@ -9,6 +11,9 @@ app.set("views", "./views");
 
 //setting up the view engine.
 app.set('view engine', 'ejs');
+
+//getting static files
+app.use(express.static(path.join(__dirname, "public")));
 
 app.use(siteRoutes);
 
