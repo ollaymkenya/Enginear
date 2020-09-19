@@ -1,0 +1,19 @@
+header {
+    width: 100%;
+    margin: .5rem auto;
+    color: var(--white);
+}
+
+header hr{
+    border-width: 1rem;
+}
+
+.header-container{
+    margin: 1rem auto;
+}
+
+@media screen and (min-width: 768px) {
+    .header-sub__title{
+        width: 55%;
+    }
+}

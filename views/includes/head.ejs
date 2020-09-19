@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <!-- CSS only -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+        integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+    <link rel="stylesheet" href="/css/main.css">
+    <% if (path === '/') { %>
+    <link rel="stylesheet" href="/css/index.css">
+    <% } %>
+</head>
+
+<body>
+    <input type="checkbox" name="" id="toggle">
+    <label for="toggle" class="hamburger-menu">
+        <span class="line"></span>
+    </label>
+    <nav class="nav">
+        <ul class="nav-list">
+            <li class="nav-item">
+                <a href="#" class="nav-link">ENGIN-NEAR <ion-icon name="cog-outline"></ion-icon></a>
+            </li>
+            <li class="nav-item">
+                <a href="#" class="nav-link">ABOUT</a>
+            </li>
+            <li class="nav-item">
+                <a href="#" class="nav-link">CONTACT</a>
+            </li>
+            <li class="nav-item">
+                <a href="#" class="nav-link">LOGIN/SIGNUP</a>
+            </li>
+        </ul>
+    </nav>

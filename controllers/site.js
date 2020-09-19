@@ -1,5 +1,5 @@
 exports.getIndex = (req, res, next) => {
-    res.render('index', {
+    res.render('site/index', {
         title: 'Mechanical',
         path: '/'
     })
