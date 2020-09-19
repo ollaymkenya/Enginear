@@ -17,3 +17,30 @@ header hr{
         width: 55%;
     }
 }
+
+.our-services{
+    margin: 1rem auto;
+    color: var(--white);
+}
+
+.our-services__container{
+    margin: 2rem 0;
+}
+
+.our-services h4{
+    text-align: center;
+}
+
+img{
+    width: 100%;
+}
+
+.our-services-container .col{
+    width: 100%;
+}
+
+@media screen and (min-width: 768px) {
+    .our-services-container .col{
+        max-width: 50%;
+    }
+}
