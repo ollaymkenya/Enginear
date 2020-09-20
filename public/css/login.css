@@ -1,0 +1,227 @@
+.contacts-container {
+    color: var(--white);
+    position: relative;
+    width: 100%;
+    min-height: 968px;
+    height: fit-content;
+}
+
+.form-container {
+    position: absolute;
+    top: 50%;
+    width: 100%;
+    height: 50%;
+    transition: all 0.5s;
+}
+
+.form-container form {
+    display: flex;
+    flex-direction: column;
+    padding: 0 50px;
+    height: 100%;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.form-container input {
+    border: var(--white);
+    border: none;
+    padding: 12px 15px;
+    margin: 5px 0;
+    width: 100%;
+}
+
+.form-container select,
+.form-container option {
+    border: var(--white);
+    border: none;
+    padding: 12px 15px;
+    margin: 5px 0;
+    width: 100%;
+}
+
+.sign-in-container,
+.sign-up-container {
+    left: 0;
+    width: 100%;
+    background-color: var(--black);
+}
+
+.sign-in-container {
+    z-index: 2;
+    text-align: center;
+}
+
+.sign-in-container a {
+    color: var(--white);
+}
+
+.sign-up-container {
+    z-index: 1;
+    opacity: 0;
+}
+
+.overlay-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 50%;
+    overflow: hidden;
+    transition: transform .5s;
+    z-index: 100;
+}
+
+.overlay {
+    position: relative;
+    top: 0;
+    left: 0;
+    bottom: -100%;
+    height: 200%;
+    width: 100%;
+    background: var(--white);
+    color: var(--black);
+    transform: translateY(100) .5s;
+}
+
+.overlay-panel {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    top: 0;
+    height: 50%;
+    width: 100%;
+    padding: 0 40px;
+    text-align: center;
+    transform: translateY(0);
+    transition: transform 0.5s;
+}
+
+.overlay-panel p {
+    font-weight: 400;
+    font-size: 1.3rem;
+    color: #6e6e6e;
+}
+
+.overlay-right {
+    top: 0;
+    transform: translateY(0);
+}
+
+.overlay-left {
+    transform: translateY(120%);
+}
+
+/* Animation */
+/* Move sign-in to top */
+.contacts-container.right-panel-active .sign-in-container {
+    transform: translateY(-100%);
+}
+
+/* Move overlay to the bottom */
+.contacts-container.right-panel-active .overlay-container {
+    transform: translateY(100%);
+}
+
+/* Bring sign up over sign in */
+.contacts-container.right-panel-active .sign-up-container {
+    transform: translateY(-100%);
+    opacity: 1;
+    z-index: 5;
+}
+
+/* Move overlay back to the top */
+.contacts-container.right-panel-active .overlay {
+    transform: translateY(50);
+}
+
+.contacts-container.right-panel-active .overlay-left {
+    transform: translateX(0);
+}
+
+.contacts-container.right-panel-active .overlay-right {
+    transform: translateY(120%);
+}
+
+@media screen and (min-width: 1024px) {
+    .contacts-container {
+        min-height: 568px;
+    }
+
+    .form-container {
+        top: 0;
+        height: 100%;
+    }
+
+    .sign-in-container,
+    .sign-up-container {
+        width: 50%;
+    }
+
+    .overlay-container {
+        left: 50%;
+        width: 50%;
+        height: 100%;
+    }
+
+    .overlay {
+        left: -100%;
+        height: 100%;
+        width: 200%;
+        background: var(--white);
+        color: var(--black);
+        transform: translateX(0) .5s;
+    }
+
+    .overlay-panel {
+        height: 100%;
+        width: 50%;
+        transform: translateX(0);
+        transition: transform .5s;
+    }
+
+    .overlay-right {
+        right: 0;
+        transform: translateX(0);
+    }
+
+    .overlay-left {
+        transform: translateX(-20%);
+        transform: translateY(0);
+    }
+
+    /* Animation */
+    /* Move signin to the right */
+    .contacts-container.right-panel-active .sign-in-container {
+        transform: translateX(100%);
+    }
+
+    /* Move overlay to the left */
+    .contacts-container.right-panel-active .overlay-container {
+        transform: translateX(-100%);
+    }
+
+    /* Bring sign up over sign in */
+    .contacts-container.right-panel-active .sign-up-container {
+        transform: translateX(100%);
+        opacity: 1;
+        z-index: 5;
+    }
+
+    /* Move overlay back to the right */
+    .contacts-container.right-panel-active .overlay {
+        transform: translateX(50%);
+    }
+
+    .contacts-container.right-panel-active .overlay-left {
+        transform: translateX(0);
+    }
+
+    .contacts-container.right-panel-active .overlay-right {
+        transform: translateX(20%);
+    }
+
+}

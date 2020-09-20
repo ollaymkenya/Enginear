@@ -5,6 +5,7 @@ const express = require("express");
 const app = express();
 
 const siteRoutes = require('./routes/site.js');
+const authRoutes = require('./routes/auth.js');
 
 //setting up where the views will be.
 app.set("views", "./views");
@@ -16,6 +17,7 @@ app.set('view engine', 'ejs');
 app.use(express.static(path.join(__dirname, "public")));
 
 app.use(siteRoutes);
+app.use(authRoutes);
 
 const PORT = process.env.PORT || 3000;
 

@@ -1,0 +1,47 @@
+<%- include('../includes/head.ejs')%>
+<div class="container">
+    <div class="contacts-container" id="container">
+        <div class="form-container sign-up-container">
+            <form action="/signup" method="POST" autocomplete="off">
+                <h4>Create Account</h4>
+                <input class="" type="text" placeholder="First Name" name="firstName" value="" />
+                <input class="" type="text" placeholder="Last Name" name="laststName" value="" />
+                <input class="" type="email" placeholder="Email" name="email" value="" />
+                <input class="" type="password" placeholder="Password" name="password" value="" />
+                <input class="" type="tel" placeholder="Telephone Number" name="telephone" value="" />
+                <label for="location">Location</label>
+                <select name="location" id="location">
+                    <option value="nairobi">Nairobi</option>
+                    <option value="mombasa">Mombasa</option>
+                    <option value="kisumu">Kisumu</option>
+                </select>           
+                <button type="submit" class="btn btn-primary">Sign Up</button>
+            </form>
+        </div>
+        <div class="form-container sign-in-container">
+            <form action="/login" method="POST" autocomplete="off">
+                <h4>Sign in</h4>
+                <input type="email" placeholder="Email" name="email" />
+                <input type="password" placeholder="Password" name="password" />
+                <a href="/reset" class="danger">Forgot your password?</a>
+                <button type="submit" class="btn btn-primary">Sign In</button>
+            </form>
+        </div>
+        <div class="overlay-container">
+            <div class="overlay">
+                <div class="overlay-panel overlay-left">
+                    <h4>Welcome Back!</h4>
+                    <p>To keep connected with us please login with your personal info</p>
+                    <button class="btn btn-primary" id="signIn">Sign In</button>
+                </div>
+                <div class="overlay-panel overlay-right">
+                    <h4>Hello, Friend!</h4>
+                    <p>Enter your personal details and start your journey with us</p>
+                    <button class="btn btn-primary" id="signUp">Sign Up</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="/js/login.js"></script>
+<%- include('../includes/footer.ejs')%>

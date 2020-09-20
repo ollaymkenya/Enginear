@@ -11,10 +11,3 @@ exports.getAbout = (req, res, next) => {
         path: '/about'
     });
 }
-
-exports.getLogin = (req, res, next) => {
-    res.render('site/login', {
-        title: 'Login SignUp',
-        path: '/login'
-    });
-}
