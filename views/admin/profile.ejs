@@ -1,0 +1,84 @@
+<%- include('../includes/start.ejs')%>
+<link rel="stylesheet" href="/css/admin.css">
+<link rel="stylesheet" href="/css/profile.css">
+</head>
+
+<body>
+    <%- include('../includes/adminnav.ejs')%>
+    <div class="container profilePage" id="move-left">
+        <div class="profile-container">
+            <div class="top-nav">
+                <a href="/home"><ion-icon name="home-outline"></ion-icon></a>
+                <p>Oliver Muriithi</p>
+                <ion-icon name="cog-outline" onclick="moveLeft()"></ion-icon>
+            </div>
+            <div class="contacts-profile">
+                <img src="/images/ClipartKey_297748.png" alt="">
+                <div class="contact-info">
+                    <div class="contact-info__name">
+                        <p>Oliver Njuguna</p>
+                        <ion-icon name="cog-outline"></ion-icon>
+                    </div>
+                    <div class="profile-stats none">
+                        <div class="profile-stat">
+                            <p>2</p>
+                            <small>job</small>
+                        </div>
+                        <div class="profile-stat">
+                            <p>4.5</p>
+                            <small>rating</small>
+                        </div>
+                    </div>
+                    <a href="/profile/edit"><button>Edit Profile</button></a>
+                </div>
+            </div>
+            <div class="profile-stats phone">
+                <div class="profile-stat">
+                    <p>2</p>
+                    <small>job</small>
+                </div>
+                <div class="profile-stat">
+                    <p>4.5</p>
+                    <small>rating</small>
+                </div>
+            </div>
+            <div class="profile-details">
+                <h6>email</h6>
+                <p>oliver123gmail.com</p>
+                <h6>telephone</h6>
+                <p>+254712345678</p>
+                <h6>website</h6>
+                <p>oliver.com</p>
+            </div>
+        </div>
+        <div class="settings-container">
+            <div class="top-nav">
+                <div class="top-nav__title">
+                    <p>Settings</p>
+                </div>
+            </div>
+            <ul class="settings-list">
+                <a href="/profile/edit">
+                    <li>
+                        <ion-icon name="person-circle-outline"></ion-icon>
+                        Edit your profile
+                    </li>
+                </a>
+                <a href="/profile/change-password">
+                    <li>
+                        <ion-icon name="lock-closed-outline"></ion-icon>
+                        Change Password
+                    </li>
+                </a>
+                <form action="/logout">
+                    <li>
+                        <ion-icon name="log-out-outline"></ion-icon>
+                        Log out
+                    </li>
+                </form>
+            </ul>
+        </div>
+    </div>
+    <script src="/js/profile.js"></script>
+    <%- include('../includes/bottomnav.ejs')%>
+    <%- include('../includes/end.ejs')%>

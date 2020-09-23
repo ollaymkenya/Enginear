@@ -15,3 +15,7 @@ exports.configure = (req, res, next) => {
         path: '/configure'
     });
 }
+
+exports.postConfigure = (req, res, next) => {
+    res.redirect('/home');
+}

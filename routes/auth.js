@@ -8,6 +8,9 @@ router.get("/login", authControllers.getLogin);
 
 router.post("/signup", authControllers.postSignUp);
 
-router.get("/configure", authControllers.configure)
+router.get("/configure", authControllers.configure);
+
+router.post("/configure", authControllers.postConfigure);
+
 
 module.exports = router;

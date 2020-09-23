@@ -1,3 +1,7 @@
+body {
+    background-color: var(--black);
+}
+
 .container {
     padding: .5rem inherit;
     display: flex;

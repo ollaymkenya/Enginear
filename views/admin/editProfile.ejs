@@ -1,0 +1,23 @@
+<%- include('../includes/start.ejs')%>
+<link rel="stylesheet" href="/css/admin.css">
+<link rel="stylesheet" href="/css/password.css">
+</head>
+
+<body>
+    <%- include('../includes/adminnav.ejs')%>
+    <div class="container passwordPage">
+        <div class="top-nav">
+            <a href="/profile"><ion-icon name="chevron-back-outline"></ion-icon></a>
+            <p>Edit profile</p>
+        </div>
+        <form action="" class="form-changePassword">
+            <label for="email"><small>Input your email below</small></label>
+            <input type="text" placeholder="Your email">
+            <label for="email"><small>Input your website link below</small></label>
+            <input type="text" placeholder="Your website">
+            <label for="email"><small>Your personal or business telephone number</small></label>
+            <input type="tel" placeholder="Telephone number">
+            <input type="submit" value="Edit">
+        </form>
+    </div>
+    <%- include('../includes/end.ejs')%>

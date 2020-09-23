@@ -6,6 +6,7 @@ const app = express();
 
 const siteRoutes = require('./routes/site.js');
 const authRoutes = require('./routes/auth.js');
+const adminRoutes = require('./routes/admin.js');
 
 //setting up where the views will be.
 app.set("views", "./views");
@@ -18,6 +19,7 @@ app.use(express.static(path.join(__dirname, "public")));
 
 app.use(siteRoutes);
 app.use(authRoutes);
+app.use(adminRoutes);
 
 const PORT = process.env.PORT || 3000;
 

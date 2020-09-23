@@ -1,0 +1,122 @@
+html,
+body{
+    overflow-y: hidden;
+    overflow-x: hidden;
+}
+
+a{
+    color: var(--black);
+}
+
+.top-navigation{
+    display: none;
+}
+
+.bottom-nav{
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    background-color: var(--white);
+    padding: 0;
+    width: 100%;
+    margin-bottom: 0;
+    width: 100vw;
+    height: fit-content;
+}
+
+.container-bottom__nav,
+.container-bottom__nav ul{
+    height: 100%;
+    margin-bottom: 0;
+    margin: auto;
+    padding: 0;
+}
+
+.nav-container {
+    margin-bottom: 0;
+    height: 50px;
+}
+
+.container-nav {
+    height: 100%;
+    padding: .5rem 15px;
+}
+
+.container-bottom__nav{
+    margin: auto;
+    padding: .5rem 0;
+}
+
+.admin-hr hr {
+    padding: 0;
+    margin: 0;
+}
+
+ul.flex-row li {
+    margin: .2rem .5rem;
+    font-size: 1.4rem;
+    cursor: pointer;
+}
+
+ul.flex-row li img {
+    width: 24px;
+    border-radius: 100%;
+    margin-top: -.7rem;
+    border: 1pc ;
+}
+
+/* mobile version */
+.top-nav {
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 1rem;
+    border-bottom: 1px solid #dbdbdb;
+    background-color: var(--white);
+    flex-shrink: 0;
+}
+
+.top-nav p {
+    font-size: .8rem;
+    font-weight: 400;
+    margin: 0;
+}
+
+.top-nav__title p {
+    font-size: .8rem;
+    font-weight: 400;
+    margin: 0;
+}
+
+.contacts-profile {
+    width: 100%;
+    display: flex;
+    justify-content: start;
+    align-items: center;
+}
+
+.contact-info {
+    width: calc(100% - 50px);
+}
+
+.contacts-profile img {
+    width: 50px;
+    margin: 0 5px;
+}
+
+.contacts-profile small:last-child {
+    font-weight: 400;
+    color: var(--gray);
+    display: block;
+}
+
+@media screen and (min-width: 768px) {
+    .bottom-nav{
+        display: none;
+    }
+
+    .top-navigation{
+        display: block;
+    }
+}

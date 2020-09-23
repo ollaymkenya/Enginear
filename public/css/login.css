@@ -1,3 +1,7 @@
+body {
+    background-color: var(--black);
+}
+
 .contacts-container {
     color: var(--white);
     position: relative;
