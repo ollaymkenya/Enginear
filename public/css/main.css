@@ -304,10 +304,6 @@ footer li a:hover{
         padding: 10rem 5rem;
     }
 
-    .nav-link {
-        font-size: 19rem;
-    }
-
     .nav-link::before {
         width: calc(100% + 5rem);
         height: 2rem;
