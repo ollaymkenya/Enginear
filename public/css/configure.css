@@ -16,9 +16,10 @@ h4 {
     font-family: var(--primary-font);
 }
 
-span {
-    font-size: 1rem;
+p {
+    font-size: 1.2em;
     text-align: center;
+    font-weight: 400;
 }
 
 .form-container form {
@@ -45,6 +46,7 @@ span {
     text-align: center;
     list-style: none;
     margin: 5px 0;
+    padding: .5rem 0;
 }
 
 #vehicle1,
@@ -53,9 +55,8 @@ span {
     display: none;
 }
 
-.icon-box ion-icon {
-    height: 30px;
-    width: 30px;
+.icon-box emoji {
+    font-size: 1.5rem;
     padding: .5rem;
     border: 1px solid var(--white);
     color: var(--white);
@@ -64,9 +65,9 @@ span {
     cursor: pointer;
 }
 
-#vehicle1:checked~.icon-box ion-icon,
-#vehicle2:checked~.icon-box ion-icon,
-#vehicle3:checked~.icon-box ion-icon {
+#vehicle1:checked~.icon-box emoji,
+#vehicle2:checked~.icon-box emoji,
+#vehicle3:checked~.icon-box emoji {
     background-color: var(--white);
     color: var(--blue);
 }

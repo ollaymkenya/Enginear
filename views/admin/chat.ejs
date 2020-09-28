@@ -9,40 +9,33 @@
         <div class="chat-container">
             <div class="chat-container__contacts">
                 <div class="top-nav">
-                    <a href="/home"><ion-icon name="chevron-back-outline"></ion-icon></a>
+                    <a href="/home">
+                        <ion-icon name="chevron-back-outline"></ion-icon>
+                    </a>
                     <div class="top-nav__title">
                         <p>Direct</p>
                     </div>
                 </div>
                 <ul class="contacts-body__list">
-                    <a href="chat/123">
-                        <li>
+                    <% for (let i =0; i < users.length; i++) {%>
+                    <li>
+                        <a href="chat/<%= users[i].chatroom_uid %>">
                             <div class="contacts-profile">
-                                <img src="/images/ClipartKey_297748.png" alt="">
+                                <img src="../<%= users[i].profile_pic %>" alt="">
                                 <div class="contact-info">
-                                    <small>Oliver Njuguna</small>
+                                    <small><%= users[i].first_name%> <%= users[i].last_name%></small>
                                     <small>online</small>
                                 </div>
                             </div>
-                        </li>
-                    </a>
-                    <a href="chat/123">
-                        <li>
-                            <div class="contacts-profile">
-                                <img src="/images/ClipartKey_297748.png" alt="">
-                                <div class="contact-info">
-                                    <small>Peter Bro</small>
-                                    <small>online</small>
-                                </div>
-                            </div>
-                        </li>
-                    </a>
+                        </a>
+                    </li>
+                    <% } %>
                 </ul>
             </div>
             <div class="chat-container__chats">
                 <div class="chat-announcement">
                     <div class="annoncement-text">
-                        <p>Say hi!</p>
+                        <p>Follow someone or click on their <ion-icon name="paper-plane-outline"></ion-icon> icon to chat with them!</p>
                     </div>
                 </div>
             </div>

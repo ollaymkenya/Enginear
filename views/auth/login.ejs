@@ -3,19 +3,26 @@
     <div class="contacts-container" id="container">
         <div class="form-container sign-up-container">
             <form action="/signup" method="POST" autocomplete="off">
-                <h4>Create Account</h4>
-                <input class="" type="text" placeholder="First Name" name="firstName" value="" />
-                <input class="" type="text" placeholder="Last Name" name="laststName" value="" />
-                <input class="" type="email" placeholder="Email" name="email" value="" />
-                <input class="" type="password" placeholder="Password" name="password" value="" />
-                <input class="" type="tel" placeholder="Telephone Number" name="telephone" value="" />
-                <label for="location">Location</label>
-                <select name="location" id="location">
-                    <option value="nairobi">Nairobi</option>
-                    <option value="mombasa">Mombasa</option>
-                    <option value="kisumu">Kisumu</option>
-                </select>           
-                <button type="submit" class="btn btn-primary">Sign Up</button>
+                <h5>Create Account</h5>
+                <label for="account">Account type</p>
+                    <div class="radioInput">
+                        <% for (let i = 0; i < accounts.length; i++) { %>
+                            <input type="radio" id="<%= accounts[i].account_name %>" name="account" value="<%= accounts[i].account_uid %>">
+                            <label for="<%= accounts[i].account_name %>"><%= accounts[i].account_name %></label>
+                        <% } %>
+                    </div>
+                    <input class="" type="text" placeholder="First Name" name="firstName" />
+                    <input class="" type="text" placeholder="Last Name" name="lastName" />
+                    <input class="" type="email" placeholder="Email" name="email" />
+                    <input class="" type="tel" placeholder="Telephone Number" name="telephone" />
+                    <label for="location">Location</label>
+                    <select name="location" id="location">
+                        <% for (let i = 0; i < addresses.length; i++) { %>
+                        <option value="<%= addresses[i].address_uid %>"><%= addresses[i].address %></option>
+                        <% } %>
+                    </select>
+                    <input class="" type="password" placeholder="Password" name="password" value="" />
+                    <button type="submit" class="btn btn-primary">Sign Up</button>
             </form>
         </div>
         <div class="form-container sign-in-container">

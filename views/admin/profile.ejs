@@ -8,17 +8,20 @@
     <div class="container profilePage" id="move-left">
         <div class="profile-container">
             <div class="top-nav">
-                <a href="/home"><ion-icon name="home-outline"></ion-icon></a>
-                <p>Oliver Muriithi</p>
+                <a href="/home">
+                    <ion-icon name="home-outline"></ion-icon>
+                </a>
+                <p><%= user.first_name%> <%= user.last_name%></p>
                 <ion-icon name="cog-outline" onclick="moveLeft()"></ion-icon>
             </div>
             <div class="contacts-profile">
-                <img src="/images/ClipartKey_297748.png" alt="">
+                <img src="../<%= user.profile_pic %>" alt="">
                 <div class="contact-info">
                     <div class="contact-info__name">
-                        <p>Oliver Njuguna</p>
+                        <p><%= user.first_name%> <%= user.last_name%></p>
                         <ion-icon name="cog-outline"></ion-icon>
                     </div>
+                    <% if (user.account_uid ===  '4dbc4cb7-7ee6-4d04-a1ba-364ea6a5c949') {%>
                     <div class="profile-stats none">
                         <div class="profile-stat">
                             <p>2</p>
@@ -29,9 +32,11 @@
                             <small>rating</small>
                         </div>
                     </div>
+                    <% } %>
                     <a href="/profile/edit"><button>Edit Profile</button></a>
                 </div>
             </div>
+            <% if (user.account_uid ===  '4dbc4cb7-7ee6-4d04-a1ba-364ea6a5c949') {%>
             <div class="profile-stats phone">
                 <div class="profile-stat">
                     <p>2</p>
@@ -42,13 +47,16 @@
                     <small>rating</small>
                 </div>
             </div>
+            <% } %>
             <div class="profile-details">
                 <h6>email</h6>
-                <p>oliver123gmail.com</p>
+                <p><%= user.email%></p>
                 <h6>telephone</h6>
-                <p>+254712345678</p>
+                <p>+254<%= user.telephone %></p>
+                <% if(user.website) {%>
                 <h6>website</h6>
-                <p>oliver.com</p>
+                <p>user.website</p>
+                <% } %>
             </div>
         </div>
         <div class="settings-container">

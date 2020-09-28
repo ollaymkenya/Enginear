@@ -14,37 +14,30 @@
                     </div>
                 </div>
                 <ul class="contacts-body__list">
-                    <a href="chat/123">
-                        <li>
+                    <% for (let i =0; i < users.length; i++) {%>
+                    <li>
+                        <a href="<%= users[i].chatroom_uid %>">
                             <div class="contacts-profile">
-                                <img src="/images/ClipartKey_297748.png" alt="">
+                                <img src="../<%= users[i].profile_pic %>" alt="">
                                 <div class="contact-info">
-                                    <small>Oliver Njuguna</small>
+                                    <small><%= users[i].first_name%> <%= users[i].last_name%></small>
                                     <small>online</small>
                                 </div>
                             </div>
-                        </li>
-                    </a>
-                    <a href="chat/123">
-                        <li>
-                            <div class="contacts-profile">
-                                <img src="/images/ClipartKey_297748.png" alt="">
-                                <div class="contact-info">
-                                    <small>Peter Bro</small>
-                                    <small>online</small>
-                                </div>
-                            </div>
-                        </li>
-                    </a>
+                        </a>
+                    </li>
+                    <% } %>
                 </ul>
             </div>
             <div class="chat-container__chats">
                 <div class="chat-container__chats-title">
-                    <a href="/chat"><ion-icon name="chevron-back-outline"></ion-icon></a>
+                    <a href="/chat">
+                        <ion-icon name="chevron-back-outline"></ion-icon>
+                    </a>
                     <div class="chats-title">
                         <img src="/images/ClipartKey_297748.png" alt="">
                         <div class="chats-title__info">
-                            <small>Oliver Njuguna</small>
+                            <small><%= otherUser.first_name%> <%= otherUser.last_name%></small>
                             <small>online</small>
                         </div>
                     </div>

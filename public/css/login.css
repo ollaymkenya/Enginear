@@ -31,7 +31,7 @@ body {
 .form-container input {
     border: var(--white);
     border: none;
-    padding: 12px 15px;
+    padding: 3px 5px;
     margin: 5px 0;
     width: 100%;
 }
@@ -40,9 +40,45 @@ body {
 .form-container option {
     border: var(--white);
     border: none;
-    padding: 12px 15px;
+    padding: 3px 5px;
     margin: 5px 0;
     width: 100%;
+}
+
+.radioInput {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+}
+
+.radioInput label {
+    width: 50%;
+    text-align: center;
+    border: 1px solid var(--white);
+    color: var(--white);
+    background-color: var(--black);
+    transition: color .5s;
+    border-radius: 5px;
+    padding: 3px 5px;
+    cursor: pointer;
+}
+
+.radioInput label:first-child {
+    margin-right: .5rem;
+}
+
+.radioInput label:last-child {
+    margin-left: .5rem;
+}
+
+input[type="radio"] {
+    display: inline;
+    display: none;
+}
+
+input[type="radio"]:checked+label {
+    background-color: var(--white);
+    color: var(--black);
 }
 
 .sign-in-container,
@@ -148,6 +184,22 @@ body {
 
 .contacts-container.right-panel-active .overlay-right {
     transform: translateY(120%);
+}
+
+@media screen and (min-width:768px) {
+    .form-container input {
+        padding: 12px 15px;
+    }
+
+    .radioInput label {
+        padding: .5rem;
+    }
+
+    .form-container select,
+    .form-container option {
+        padding: 12px 15px;
+    }
+
 }
 
 @media screen and (min-width: 1024px) {

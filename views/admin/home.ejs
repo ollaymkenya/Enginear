@@ -16,12 +16,13 @@
             </a>
         </div>
         <div class="main-user__container-block">
+            <% for (let i = 0; i < users.length; i++) { %>
             <div class="user-container">
                 <div class="user-container__profile">
                     <div class="user-container__profile_header">
                         <div class="profile-header__name">
-                            <img src="/images/ClipartKey_297748.png" alt="">
-                            <p>Oliver Njuguna</p>
+                            <img src="<%= users[i].profile_pic %>" alt="">
+                            <p><%= users[i].first_name %> <%= users[i].last_name %></p>
                         </div>
                     </div>
                     <hr>
@@ -39,10 +40,41 @@
                                 <ion-icon name="person-outline"></ion-icon>
                             </li>
                             <li>
-                                <ion-icon name="heart-outline"></ion-icon>
+                                <% if(users[i].client_favorite_mechanic_uid  && currentUser.user_uid === users[i].client_uid) {%>
+                                <form action="/home/removeFav/<%= users[i].user_uid%>" method="POST"
+                                    id="like<%= users[i].user_uid%>">
+                                    <input type="checkbox" name="<%= users[i].user_uid%>"
+                                        data-userId="<%= users[i].user_uid%>" value="<%= users[i].user_uid%>">
+                                    <label for="users[i].user_uid">
+                                        <button type="submit" class="icon-button"
+                                            style="border: none;background: transparent;">
+                                            <ion-icon name="heart-outline" class="favorite"></ion-icon>
+                                        </button>
+                                    </label>
+                                </form>
+                                <% } else {%>
+                                <form action="/home/<%= users[i].user_uid%>" method="POST"
+                                    id="like<%= users[i].user_uid%>">
+                                    <input type="checkbox" name="<%= users[i].user_uid%>"
+                                        data-userId="<%= users[i].user_uid%>" value="<%= users[i].user_uid%>">
+                                    <label for="users[i].user_uid">
+                                        <button type="submit" class="icon-button"
+                                            style="border: none;background: transparent;">
+                                            <ion-icon name="heart-outline"></ion-icon>
+                                        </button>
+                                    </label>
+                                </form>
+                                <% } %>
                             </li>
                             <li>
-                                <ion-icon name="paper-plane-outline"></ion-icon>
+                                <form action="/chat" method="post">
+                                    <button type="submit" class="icon-button"
+                                        style="border: none;background: transparent;">
+                                        <ion-icon name="paper-plane-outline"></ion-icon>
+                                        <input type="hidden" name="user" value="<%= users[i].user_uid%>">
+                                        <input type="hidden" name="user2" value="<%=currentUser.user_uid%>">
+                                    </button>
+                                </form>
                             </li>
                             <li>
                                 <ion-icon name="briefcase-outline"></ion-icon>
@@ -51,146 +83,9 @@
                     </div>
                 </div>
             </div>
-            <div class="user-container">
-                <div class="user-container__profile">
-                    <div class="user-container__profile_header">
-                        <div class="profile-header__name">
-                            <img src="/images/ClipartKey_297748.png" alt="">
-                            <p>Oliver Njuguna</p>
-                        </div>
-                    </div>
-                    <hr>
-                    <div class="user-container__profile-body">
-                        <div>
-                            <p>Jobs done: </p><span>2000</span>
-                        </div>
-                        <div>
-                            <p>Rating: </p><span>5</span>
-                        </div>
-                    </div>
-                    <div class="user-container__profile-footer">
-                        <ul>
-                            <li>
-                                <ion-icon name="person-outline"></ion-icon>
-                            </li>
-                            <li>
-                                <ion-icon name="heart-outline"></ion-icon>
-                            </li>
-                            <li>
-                                <ion-icon name="paper-plane-outline"></ion-icon>
-                            </li>
-                            <li>
-                                <ion-icon name="briefcase-outline"></ion-icon>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-            <div class="user-container">
-                <div class="user-container__profile">
-                    <div class="user-container__profile_header">
-                        <div class="profile-header__name">
-                            <img src="/images/ClipartKey_297748.png" alt="">
-                            <p>Oliver Njuguna</p>
-                        </div>
-                    </div>
-                    <hr>
-                    <div class="user-container__profile-body">
-                        <div>
-                            <p>Jobs done: </p><span>2000</span>
-                        </div>
-                        <div>
-                            <p>Rating: </p><span>5</span>
-                        </div>
-                    </div>
-                    <div class="user-container__profile-footer">
-                        <ul>
-                            <li>
-                                <ion-icon name="person-outline"></ion-icon>
-                            </li>
-                            <li>
-                                <ion-icon name="heart-outline"></ion-icon>
-                            </li>
-                            <li>
-                                <ion-icon name="paper-plane-outline"></ion-icon>
-                            </li>
-                            <li>
-                                <ion-icon name="briefcase-outline"></ion-icon>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </div><div class="user-container">
-                <div class="user-container__profile">
-                    <div class="user-container__profile_header">
-                        <div class="profile-header__name">
-                            <img src="/images/ClipartKey_297748.png" alt="">
-                            <p>Oliver Njuguna</p>
-                        </div>
-                    </div>
-                    <hr>
-                    <div class="user-container__profile-body">
-                        <div>
-                            <p>Jobs done: </p><span>2000</span>
-                        </div>
-                        <div>
-                            <p>Rating: </p><span>5</span>
-                        </div>
-                    </div>
-                    <div class="user-container__profile-footer">
-                        <ul>
-                            <li>
-                                <ion-icon name="person-outline"></ion-icon>
-                            </li>
-                            <li>
-                                <ion-icon name="heart-outline"></ion-icon>
-                            </li>
-                            <li>
-                                <ion-icon name="paper-plane-outline"></ion-icon>
-                            </li>
-                            <li>
-                                <ion-icon name="briefcase-outline"></ion-icon>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </div><div class="user-container">
-                <div class="user-container__profile">
-                    <div class="user-container__profile_header">
-                        <div class="profile-header__name">
-                            <img src="/images/ClipartKey_297748.png" alt="">
-                            <p>Oliver Njuguna</p>
-                        </div>
-                    </div>
-                    <hr>
-                    <div class="user-container__profile-body">
-                        <div>
-                            <p>Jobs done: </p><span>2000</span>
-                        </div>
-                        <div>
-                            <p>Rating: </p><span>5</span>
-                        </div>
-                    </div>
-                    <div class="user-container__profile-footer">
-                        <ul>
-                            <li>
-                                <ion-icon name="person-outline"></ion-icon>
-                            </li>
-                            <li>
-                                <ion-icon name="heart-outline"></ion-icon>
-                            </li>
-                            <li>
-                                <ion-icon name="paper-plane-outline"></ion-icon>
-                            </li>
-                            <li>
-                                <ion-icon name="briefcase-outline"></ion-icon>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
+            <% } %>
         </div>
     </div>
     <%- include('../includes/bottomnav.ejs')%>
-    <script src="/js/profile.js"></script>
+    <script src="/js/home.js"></script>
     <%- include('../includes/end.ejs')%>

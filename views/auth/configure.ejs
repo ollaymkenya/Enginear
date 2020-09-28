@@ -3,81 +3,37 @@
 </head>
 
 <body>
-    <div class="container">
-        <h4>Hello Oliver, one more step to go ! 😇</h4>
-        <span>Tell us more about yourself to have the best experience with us</span>
-        <div class="form-container">
-            <form action="/configure" method="POST" autocomplete="off">
-                <span>Your type(s) of car</span>
-                <ul class="carType">
-                    <li class="col-4 ">
-                        <input type="checkbox" name="" id="vehicle1">
-                        <div class="icon-box">
-                            <label for="vehicle1" class="">
-                                <ion-icon name="car-sport-outline"></ion-icon>
-                            </label>
-                        </div>
-                    </li>
-                    <li class="col-4">
-                        <input type="checkbox" name="" id="vehicle2">
-                        <div class="icon-box">
-                            <label for="vehicle2" class="">
-                                <ion-icon name="car-outline"></ion-icon>
-                            </label>
-                        </div>
-                    </li>
-                    <li class="col-4">
-                        <input type="checkbox" name="" id="vehicle3">
-                        <div class="icon-box">
-                            <label for="vehicle3" class="">
-                                <ion-icon name="bus-outline"></ion-icon>
-                            </label>
-                        </div>
-                    </li>
-                </ul>
-                <span>Your car(s) brand</span>
-                <div class="check-box__container">
-                    <ul class="ks-cboxtags">
-                        <li><input type="checkbox" id="checkboxOne" value="Rainbow Dash"><label
-                                for="checkboxOne">Meredes</label></li>
-                        <li><input type="checkbox" id="checkboxTwo" value="Cotton Candy"><label
-                                for="checkboxTwo">BMW</label></li>
-                        <li><input type="checkbox" id="checkboxThree" value="Rarity"><label
-                                for="checkboxThree">VolksWagen</label></li>
-                        <li><input type="checkbox" id="checkboxFour" value="Moondancer"><label
-                                for="checkboxFour">Isuzu</label></li>
-                        <li><input type="checkbox" id="checkboxFive" value="Surprise"><label
-                                for="checkboxFive">Toyota</label></li>
-                        <li><input type="checkbox" id="checkboxSix" value="Twilight Sparkle"><label
-                                for="checkboxSix">Suzuki</label></li>
-                        <li><input type="checkbox" id="checkboxSeven" value="Fluttershy"><label for="checkboxSeven">Land
-                                Rover</label></li>
-                        <li><input type="checkbox" id="checkboxEight" value="Derpy Hooves"><label
-                                for="checkboxEight">Subaru</label></li>
-                        <li><input type="checkbox" id="checkboxNine" value="Princess Celestia"><label
-                                for="checkboxNine">Nissan</label></li>
-                        <li><input type="checkbox" id="checkboxTen" value="Gusty"><label for="checkboxTen">Gusty</label>
-                        </li>
-                        <li class="ks-selected"><input type="checkbox" id="checkboxEleven" value="Discord"><label
-                                for="checkboxEleven">Peugot</label></li>
-                        <li><input type="checkbox" id="checkboxTwelve" value="Clover"><label
-                                for="checkboxTwelve">Mitsubishi</label></li>
-                        <li><input type="checkbox" id="checkboxThirteen" value="Baby Moondancer"><label
-                                for="checkboxThirteen">Mazda</label></li>
-                        <li><input type="checkbox" id="checkboxFourteen" value="Medley"><label
-                                for="checkboxFourteen">Lexus</label></li>
-                        <li><input type="checkbox" id="checkboxFifteen" value="Firefly"><label
-                                for="checkboxFifteen">Audi</label></li>
-                        <li><input type="checkbox" id="checkboxSixteen" value="Firefly"><label
-                                for="checkboxSixteen">Ford</label></li>
-                        <li><input type="checkbox" id="checkboxSeventeen" value="Firefly"><label
-                                for="checkboxSeventeen">Kia</label></li>
-                        <li><input type="checkbox" id="checkboxEighteen" value="Firefly"><label
-                                for="checkboxEighteen">Tesla</label></li>
-                    </ul>
-                </div>
-                <button type="submit" class="btn btn-primary">welcome 🎊🎊🎊</button>
-            </form>
-        </div>
-    </div>
-    <%- include('../includes/end.ejs')%>
+	<div class="container">
+		<h4>Hello <%= user.first_name %>, one more step to go !🛫</h4>
+		<span>Tell us more about yourself to have the best experience with us</span>
+		<div class="form-container">
+			<form action="/configure" method="POST" autocomplete="off">
+				<p><%= user.account_uid === '4dbc4cb7-7ee6-4d04-a1ba-364ea6a5c949' ? 'Choose the category(ies) of car(s) that you repair' :'Your category(ies) of car(s)'%>
+					e.g heavy engine, small engine</p>
+				<ul class="carType">
+					<% for(let i = 0; i < carTypes.length; i++) {%>
+					<li class="col-4 ">
+						<input type="checkbox" name="<%= carTypes[i].type_of_car_name %>" id="vehicle<%= i+1 %>" value="<%= carTypes[i].type_of_car_uid %>">
+						<div class="icon-box">
+							<label for="vehicle<%= i+1 %>" class="">
+								<emoji><%= emoji.get(carTypes[i].type_of_car_name) %></emoji>
+							</label>
+						</div>
+					</li>
+					<% }%>
+				</ul>
+				<p><%= user.account_uid === '4dbc4cb7-7ee6-4d04-a1ba-364ea6a5c949' ? 'Choose the brand(s) of cars that you repair' :'Your car(s) brand'%>
+					e.g merceds, bmw</p>
+				<div class="check-box__container">
+					<ul class="ks-cboxtags">
+						<% for(let i= 0; i < carBrands.length; i++) {%>
+							<li><input type="checkbox" id="chechbox<%= i %>" name="<%= carBrands[i].brand_of_car_name %>" value="<%= carBrands[i].brand_of_car_uid %>"><label
+								for="chechbox<%= i %>"><%= carBrands[i].brand_of_car_name %></label></li>
+						<% } %>
+					</ul>
+				</div>
+				<input type="submit" class="btn btn-primary">welcome 🎊🎊🎊</input>
+			</form>
+		</div>
+	</div>
+	<%- include('../includes/end.ejs')%>

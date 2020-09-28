@@ -94,10 +94,36 @@ hr {
     cursor: pointer;
 }
 
+input[type="checkbox"] {
+    display: inline;
+    display: none;
+}
+
+label {
+    transition: all .5s;
+    padding: 3px 5px;
+    cursor: pointer;
+    height: 100%;
+    width: 100%;
+    --ionicon-stroke-width: 32px;
+}
+
+.favorite {
+    color: var(--red);
+    --ionicon-stroke-width: 100px;
+}
+
+.icon-button:focus,
+.icon-button:active {
+    border: none;
+    outline: none;
+}
+
 @media screen and (min-width: 768px) {
-    .top-nav{
+    .top-nav {
         display: none;
     }
+
     .main-container__block {
         height: calc(100vh - 55px);
     }
