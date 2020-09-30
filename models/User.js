@@ -73,6 +73,11 @@ class User {
         const cFes = await pool.query("SELECT * FROM uzer JOIN client_favorite_mechanic ON client_uid = uzer.user_uid WHERE uzer.user_uid = $1", [id]);
         return cFes.rows;
     }
+
+    static async editDetails(id, email, site, telephone, image) {
+        const editDetails = await pool.query("UPDATE uzer SET email = $2, website = $3, telephone = $4, profile_pic = $5 WHERE user_uid = $1 RETURNING *", [id, email, site, telephone, image]);
+        return editDetails.rows;
+    }
 }
 
 module.exports = User;

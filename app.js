@@ -6,8 +6,30 @@ const express = require("express");
 var bodyParser = require('body-parser')
 const session = require('express-session');
 const pgSession = require('connect-pg-simple')(session);
+const multer = require("multer");
+
+const fileStorage = multer.diskStorage({
+    destination: (req, file, callb) => {
+        callb(null, 'public/profile');
+    },
+    filename: (req, file, callb) => {
+        callb(null, `${Date.parse(new Date())}-${file.originalname}`);
+    }
+})
+
+const fileFilter = (req, file, callb) => {
+    if (file.mimetype === 'image/png' || file.mimetype === 'image/jpg' || file.mimetype === 'image/jpeg') {
+        callb(null, true)
+    }
+    callb(null, false)
+}
 
 const app = express();
+const http = require('http').createServer(app);
+const io = require('socket.io')(http);
+
+const Message = require('./models/Message');
+
 app.use(bodyParser.urlencoded({ extended: false }))
 
 const siteRoutes = require('./routes/site.js');
@@ -19,6 +41,8 @@ app.set("views", "./views");
 
 //setting up the view engine.
 app.set('view engine', 'ejs');
+
+app.use(multer({ storage: fileStorage, fileFilter: fileFilter }).single('image'));
 
 //getting static files
 app.use(express.static(path.join(__dirname, "public")));
@@ -61,6 +85,18 @@ app.use(siteRoutes);
 app.use(authRoutes);
 app.use(adminRoutes);
 
-app.listen(PORT, () => {
+io.on('connection', (socket) => {
+    socket.on('joinRoom', ( {chatRoom} ) => {
+        socket.join(chatRoom);
+        //Listen for messages
+        socket.on("userMessage", async (data) => {
+            const newMessage = await new Message(data.from, data.to, data.message, data.chatRoom);
+            const message = await newMessage.save();
+            io.to(chatRoom).emit("userMessage", message);
+        })
+    })
+})
+
+http.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`)
 })

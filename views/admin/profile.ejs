@@ -1,4 +1,5 @@
 <%- include('../includes/start.ejs')%>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <link rel="stylesheet" href="/css/admin.css">
 <link rel="stylesheet" href="/css/profile.css">
 </head>
@@ -18,17 +19,24 @@
                 <img src="../<%= user.profile_pic %>" alt="">
                 <div class="contact-info">
                     <div class="contact-info__name">
-                        <p><%= user.first_name%> <%= user.last_name%></p>
-                        <ion-icon name="cog-outline"></ion-icon>
+                        <span><%= user.first_name%> <%= user.last_name%></span>
+                        <% if(user.website) {%>
+                        <a href="https://<%=user.website%>" target="_blank">
+                            <span><%=user.website%></span>
+                        </a>
+                        <% } %>
+                        <span>+254<%= user.telephone %></span>
+                        <span><%= user.email%></span>
+                        <ion-icon name="cog-outline" class="desktopcog"></ion-icon>
                     </div>
                     <% if (user.account_uid ===  '4dbc4cb7-7ee6-4d04-a1ba-364ea6a5c949') {%>
                     <div class="profile-stats none">
                         <div class="profile-stat">
-                            <p>2</p>
-                            <small>job</small>
+                            <p><%= user.jobs %></p>
+                            <small>jobs</small>
                         </div>
                         <div class="profile-stat">
-                            <p>4.5</p>
+                            <p><%= user.fullRating %></p>
                             <small>rating</small>
                         </div>
                     </div>
@@ -39,24 +47,120 @@
             <% if (user.account_uid ===  '4dbc4cb7-7ee6-4d04-a1ba-364ea6a5c949') {%>
             <div class="profile-stats phone">
                 <div class="profile-stat">
-                    <p>2</p>
-                    <small>job</small>
+                    <p><%= user.jobs %></p>
+                    <small>jobs</small>
                 </div>
                 <div class="profile-stat">
-                    <p>4.5</p>
+                    <p><%= user.fullRating %></p>
                     <small>rating</small>
                 </div>
             </div>
             <% } %>
-            <div class="profile-details">
-                <h6>email</h6>
-                <p><%= user.email%></p>
-                <h6>telephone</h6>
-                <p>+254<%= user.telephone %></p>
-                <% if(user.website) {%>
-                <h6>website</h6>
-                <p>user.website</p>
-                <% } %>
+            <div class="jobs-comments">
+                <div class="section-nav">
+                    <a class="jobs-tag">
+                        <ion-icon name="briefcase-outline"></ion-icon>
+                    </a>
+                    <a class="comments-tag">
+                        <ion-icon name="chatbox-ellipses-outline"></ion-icon>
+                    </a>
+                </div>
+                <div class="jobs-comments-container">
+                    <div class="jobs-comments__section">
+                        <div class="jobs-container">
+                            <% for(let i = 0; i < jobs.length; i++) {%>
+                            <div class="job-container">
+                                <% if(jobs[i].client_uid === user.user_uid){ %>
+                                <div class="job-container__header">
+                                    <ion-icon name="construct-outline"></ion-icon>
+                                    <p><%= jobs[i].first_name %> <%= jobs[i].last_name %></p>
+                                </div>
+                                <% }else { %>
+                                <div class="job-container__header">
+                                    <ion-icon name="person-outline"></ion-icon>
+                                    <p><%= jobs[i].first_name %> <%= jobs[i].last_name %></p>
+                                </div>
+                                <% } %>
+                                <div class="job-container__body">
+                                    <div class="job-contents">
+                                        <p>Vehicle-type: <span><%= jobs[i].type_of_car_name %></span></p>
+                                        <p>Vehicle-brand:<span><%= jobs[i].brand_of_car_name %></span></p>
+                                        <p>Service: <span><%=  jobs[i].name %></span></p>
+                                        <small>Date: <%= jobs[i].time %></small>
+                                    </div>
+                                    <div class="see-review__contents">
+                                        <% for(let j = 0; j < jobs[i].star; j++) { %>
+                                        <span class="fa fa-star checked"></span>
+                                        <% } %>
+                                        <% for(let j = 0; j < (5 - jobs[i].star); j++) { %>
+                                        <span class="fa fa-star"></span>
+                                        <% } %>
+                                        <p><%= jobs[i].rating%></p>
+                                        <small><%= jobs[i].review%></small>
+                                    </div>
+                                    <div class="see-feedback__contents">
+                                        <small><%= jobs[i].feedback%></small>
+                                    </div>
+                                </div>
+                                <div class="job-container__footer">
+                                    <% if(jobs[i].client_uid === user.user_uid){ %>
+                                    <%if(jobs[i].review_uid) {%>
+                                    <button class="btn-small see-review">
+                                        See review
+                                    </button>
+                                    <% }else { %>
+                                    <button class="btn-small btn-review" data-jobid="<%= jobs[i].job_uid %>">
+                                        Give review
+                                    </button>
+                                    <% } %>
+                                    <%if(jobs[i].feedback_uid) {%>
+                                    <button class="btn-small see-feedback">
+                                        See feedback
+                                    </button>
+                                    <% } %>
+                                    <% }else { %>
+                                    <%if(jobs[i].feedback_uid) {%>
+                                    <button class="btn-small see-feedback">
+                                        See feedback
+                                    </button>
+                                    <% }else if(jobs[i].review_uid){ %>
+                                    <button class="btn-small btn-feedback" data-jobid="<%= jobs[i].job_uid %>">
+                                        Give feedback
+                                    </button>
+                                    <% } %>
+                                    <%if(jobs[i].review_uid) {%>
+                                    <button class="btn-small see-review">
+                                        See review
+                                    </button>
+                                    <% } %>
+                                    <% } %>
+                                </div>
+                            </div>
+                            <% } %>
+                        </div>
+                        <div class="comments-container">
+                            <% for(let i = 0; i < jobs.length; i++) {%>
+                            <div class="job-review">
+                                <div class="see-review__contents">
+                                    <% for(let j = 0; j < jobs[i].star; j++) { %>
+                                    <span class="fa fa-star checked"></span>
+                                    <% } %>
+                                    <% for(let j = 0; j < (5 - jobs[i].star); j++) { %>
+                                    <span class="fa fa-star"></span>
+                                    <% } %>
+                                    <p><%= jobs[i].rating%></p>
+                                    <small><%= jobs[i].review%></small>
+                                </div>
+                                <div class="job-feedback">
+                                    <div class="see-feedback__contents">
+                                        <small><%= jobs[i].feedback%></small>
+                                    </div>
+                                </div>
+                            </div>
+                            <% } %>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
         <div class="settings-container">
@@ -87,6 +191,45 @@
             </ul>
         </div>
     </div>
-    <script src="/js/profile.js"></script>
+    <div class="modal-bg">
+        <div class="commentmodal">
+            <form action="" method="POST" class="comment-form">
+                <label for="typeOfService">Rating</label>
+                <input type="range" name="ratingNumber" min="1" max="5" value="5" class="slider" id="myRange">
+                <p id="ratingTitle" style="color: teal;">Awesome Experience</p>
+                <label for="comment">Say something about your rating</label>
+                <textarea name="comment" id="" cols="30" rows="10"></textarea>
+                <input type="hidden" name="ratingInput" id="ratingInput" value="Awesome Experience">
+                <button type="submit" class="btn btn-primary modal-close2"> Make comment</button>
+            </form>
+            <span class="modal-close">
+                <ion-icon name="close-circle-outline"></ion-icon>
+            </span>
+        </div>
+    </div>
+    <div class="modal-bg2">
+        <div class="feedbackmodal">
+            <form action="" method="POST" class="feedback-form">
+                <label for="comment">Reply something to your client</label>
+                <textarea name="feedback" id="" cols="30" rows="10"></textarea>
+                <button type="submit" class="btn btn-primary modal-close4"> Give feedback</button>
+            </form>
+            <span class="modal-close3">
+                <ion-icon name="close-circle-outline"></ion-icon>
+            </span>
+        </div>
+    </div>
+    <div class="modal-bg3">
+        <div class="settingsmodal">
+            <a href="/profile/edit"><ion-icon name="person-outline"></ion-icon> Edit Profile</a>
+            <a href="/profile/change-password"><ion-icon name="lock-closed-outline"></ion-icon> Change Password</a>
+            <a href="" class="not"><ion-icon name="log-out-outline"></ion-icon> logout</a>
+            <span class="modal-close5">
+                <ion-icon name="close-circle-outline"></ion-icon>
+            </span>
+        </div>
+    </div>
+
     <%- include('../includes/bottomnav.ejs')%>
+    <script src="/js/profile.js"></script>
     <%- include('../includes/end.ejs')%>

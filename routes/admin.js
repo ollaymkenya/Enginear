@@ -24,4 +24,12 @@ router.get("/profile/change-password", adminControllers.getChangePassword);
 
 router.get("/profile/edit", adminControllers.editProfile);
 
+router.post("/profile/edit", adminControllers.postEditProfile);
+
+router.post("/job/:enginearId", adminControllers.postJob);
+
+router.post("/review/:jobId", adminControllers.postReview);
+
+router.post("/feedback/:jobId", adminControllers.postFeedback);
+
 module.exports = router;

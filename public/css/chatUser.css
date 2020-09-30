@@ -100,7 +100,9 @@
 }
 
 .message-chat {
-    width: 60%;
+    width: fit-content;
+    max-width: 60%;
+    min-width: 60px;
     border-radius: 25px;
     position: relative;
     margin: .5rem;
@@ -116,7 +118,7 @@
 .message-chat small {
     font-size: .7rem;
     position: absolute;
-    bottom: 0.5rem;
+    bottom: 0.2rem;
     right: 1rem;
 }
 

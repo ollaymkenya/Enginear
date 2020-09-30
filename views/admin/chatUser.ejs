@@ -35,7 +35,7 @@
                         <ion-icon name="chevron-back-outline"></ion-icon>
                     </a>
                     <div class="chats-title">
-                        <img src="/images/ClipartKey_297748.png" alt="">
+                        <img src="../<%= user.profile_pic %>" alt="">
                         <div class="chats-title__info">
                             <small><%= otherUser.first_name%> <%= otherUser.last_name%></small>
                             <small>online</small>
@@ -43,41 +43,23 @@
                     </div>
                 </div>
                 <div class="chat-container__body">
-                    <div class="chat-container__body-texts">
-                        <div class="message-chat chat-away">
-                            <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Incidunt aspernatur quidem
-                                quaerat omnis temporibus magnam.</p>
-                            <small>9:59 am</small>
+                    <div class="chat-container__body-texts" id="output">
+                        <%for (let i = 0; i < messages.length; i++) {%>
+                        <div class="<%= messages[i].from_uid === currentUser? 'message-chat chat-home': 'message-chat chat-away'%>">
+                            <p><%= messages[i].message %></p>
+                            <small><%= messages[i].time %></small>
                         </div>
-                        <div class="message-chat chat-home">
-                            <p>Lorem, ipsum dolor sit amet consectetur adipisicing.</p>
-                            <small>9:59 am</small>
-                        </div>
-                        <div class="message-chat chat-away">
-                            <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Incidunt aspernatur quidem
-                                quaerat omnis temporibus magnam.</p>
-                            <small>9:59 am</small>
-                        </div>
-                        <div class="message-chat chat-home">
-                            <p>Lorem, ipsum dolor sit amet consectetur adipisicing.</p>
-                            <small>9:59 am</small>
-                        </div>
-                        <div class="message-chat chat-away">
-                            <p>Niaje ipsum dolor sit, amet consectetur adipisicing elit. Incidunt aspernatur quidem
-                                quaerat omnis temporibus magnam.</p>
-                            <small>9:59 am</small>
-                        </div>
-                        <div class="message-chat chat-home">
-                            <p>Lorem, ipsum dolor sit amet consectetur adipisicing.</p>
-                            <small>9:59 am</small>
-                        </div>
+                        <%}%>
                     </div>
                     <div class="chat-container__body-input">
                         <form class="main-messages__input">
                             <input type="text" name="message" id="message" placeholder="message..." autocomplete="off">
-                            <button id="sendMessage">
-                                <ion-icon name="paper-plane-outline"></ion-icon>
-                            </button>
+                            <input type="hidden" name="chatRoom" value="<%= chatRoom %>" id="chatRoom">
+                        <input type="hidden" name="otherUser" value="<%= otherUser.user_uid %>" id="otherUser">
+                        <input type="hidden" name="currentUser" id="currentUser" value="<%= currentUser %>">
+                        <button id="sendMessage">
+                            <ion-icon name="paper-plane-outline"></ion-icon>
+                        </button>
                         </form>
                     </div>
                 </div>
@@ -85,4 +67,6 @@
         </div>
     </div>
     </div>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="/js/userChats.js"></script>
     <%- include('../includes/end.ejs')%>

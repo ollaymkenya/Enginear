@@ -7,16 +7,19 @@
     <%- include('../includes/adminnav.ejs')%>
     <div class="container passwordPage">
         <div class="top-nav">
-            <a href="/profile"><ion-icon name="chevron-back-outline"></ion-icon></a>
+            <a href="/profile">
+                <ion-icon name="chevron-back-outline"></ion-icon>
+            </a>
             <p>Edit profile</p>
         </div>
-        <form action="" class="form-changePassword">
-            <label for="email"><small>Input your email below</small></label>
-            <input type="text" placeholder="Your email">
-            <label for="email"><small>Input your website link below</small></label>
-            <input type="text" placeholder="Your website">
-            <label for="email"><small>Your personal or business telephone number</small></label>
-            <input type="tel" placeholder="Telephone number">
+        <form action="/profile/edit" class="form-editProfile" enctype="multipart/form-data" method="POST">
+            <div class="profile-image">
+                <img src="../<%= user.profile_pic %>" alt="">
+            </div>
+            <input type="file" name="image" id="">
+            <input type="text" name="email" placeholder="Your email" value="<%= user.email%>">
+            <input type="text" name="site" placeholder="" value ="<%= user.website? user.website :''%>">
+            <input type="tel" name="telephone" placeholder= "" value ="0<%=user.telephone%>">
             <input type="submit" value="Edit">
         </form>
     </div>

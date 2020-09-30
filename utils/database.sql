@@ -13,6 +13,33 @@ CREATE TABLE uzer
     UNIQUE(email)
 );
 
+CREATE TABLE job
+(
+    job_uid UUID NOT NULL PRIMARY KEY,
+    client_uid UUID REFERENCES uzer(user_uid) NOT NULL,
+    enginear_uid UUID REFERENCES uzer(user_uid) NOT NULL,
+    type_of_car_uid UUID REFERENCES type_of_car(type_of_car_uid) NOT NULL,
+    brand_of_car_uid UUID REFERENCES brand_of_car(brand_of_car_uid) NOT NULL,
+    type_of_service_uid UUID REFERENCES type_of_service(type_of_service_uid) NOT NULL,
+    review_uid UUID REFERENCES review(review_uid),
+    feedback_uid UUID REFERENCES feedback(feedback_uid),
+    time VARCHAR(50) NOT NULL
+)
+
+CREATE TABLE review
+(
+    review_uid UUID NOT NULL PRIMARY KEY,
+    star NUMERIC NOT NULL,
+    rating VARCHAR(20) NOT NULL,
+    review VARCHAR(120) NOT NULL,
+)
+
+CREATE TABLE feedback
+(
+    feedback_uid UUID NOT NULL PRIMARY KEY,
+    feedback VARCHAR(120) NOT NULL
+)
+
 CREATE TABLE user_types_of_cars
 (
     user_types_of_cars_uid UUID PRIMARY KEY NOT NULL,
@@ -49,9 +76,25 @@ CREATE TABLE user_chat_room
     chatroom_uid UUID REFERENCES chatroom(chatroom_uid) NOT NULL
 )
 
+CREATE TABLE message
+(
+    message_uid UUID NOT NULL PRIMARY KEY,
+    from_uid UUID REFERENCES uzer(user_uid) NOT NULL,
+    to_uid UUID REFERENCES uzer(user_uid) NOT NULL,
+    message TEXT NOT NULL,
+    time VARCHAR(50) NOT NULL,
+    chatroom_uid UUID REFERENCES chatroom(chatroom_uid) NOT NULL
+)
+
 CREATE TABLE chatroom
 (
     chatroom_uid UUID NOT NULL PRIMARY KEY
+)
+
+CREATE TABLE type_of_service
+(
+    type_of_service_uid UUID NOT NULL PRIMARY KEY,
+    name VARCHAR(50) NOT NULL
 )
 
 -- creating table account
