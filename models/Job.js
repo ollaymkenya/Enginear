@@ -30,12 +30,12 @@ class Job {
     }
 
     static async getClientJobs(id) {
-        const usrerJobs = await pool.query("SELECT * FROM job JOIN uzer ON uzer.user_uid = job.enginear_uid JOIN type_of_car ON type_of_car.type_of_car_uid = job.type_of_car_uid JOIN brand_of_car ON brand_of_car.brand_of_car_uid = job.brand_of_car_uid JOIN type_of_service ON type_of_service.type_of_service_uid = job.type_of_service_uid JOIN review ON review.review_uid = job.review_uid JOIN feedback ON feedback.feedback_uid = job.feedback_uid WHERE job.client_uid = $1", [id]);
+        const usrerJobs = await pool.query("SELECT * FROM job JOIN uzer ON uzer.user_uid = job.enginear_uid JOIN type_of_car ON type_of_car.type_of_car_uid = job.type_of_car_uid JOIN brand_of_car ON brand_of_car.brand_of_car_uid = job.brand_of_car_uid JOIN type_of_service ON type_of_service.type_of_service_uid = job.type_of_service_uid LEFT JOIN review ON review.review_uid = job.review_uid LEFT JOIN feedback ON feedback.feedback_uid = job.feedback_uid WHERE job.client_uid = $1", [id]);
         return usrerJobs.rows;
     }
 
     static async getEngJobs(id) {
-        const usrerJobs = await pool.query("SELECT * FROM job JOIN uzer ON uzer.user_uid = job.client_uid JOIN type_of_car ON type_of_car.type_of_car_uid = job.type_of_car_uid JOIN brand_of_car ON brand_of_car.brand_of_car_uid = job.brand_of_car_uid JOIN type_of_service ON type_of_service.type_of_service_uid = job.type_of_service_uid JOIN review ON review.review_uid = job.review_uid JOIN feedback ON feedback.feedback_uid = job.feedback_uid WHERE job.enginear_uid = $1", [id]);
+        const usrerJobs = await pool.query("SELECT * FROM job JOIN uzer ON uzer.user_uid = job.client_uid JOIN type_of_car ON type_of_car.type_of_car_uid = job.type_of_car_uid JOIN brand_of_car ON brand_of_car.brand_of_car_uid = job.brand_of_car_uid JOIN type_of_service ON type_of_service.type_of_service_uid = job.type_of_service_uid LEFT JOIN review ON review.review_uid = job.review_uid LEFT JOIN feedback ON feedback.feedback_uid = job.feedback_uid WHERE job.enginear_uid = $1", [id]);
         return usrerJobs.rows;
     }
 

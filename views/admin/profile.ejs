@@ -20,11 +20,6 @@
                 <div class="contact-info">
                     <div class="contact-info__name">
                         <span><%= user.first_name%> <%= user.last_name%></span>
-                        <% if(user.website) {%>
-                        <a href="https://<%=user.website%>" target="_blank">
-                            <span><%=user.website%></span>
-                        </a>
-                        <% } %>
                         <span>+254<%= user.telephone %></span>
                         <span><%= user.email%></span>
                         <ion-icon name="cog-outline" class="desktopcog"></ion-icon>
@@ -41,7 +36,13 @@
                         </div>
                     </div>
                     <% } %>
-                    <a href="/profile/edit"><button>Edit Profile</button></a>
+                    <a href="/myprofile/edit"><button type="button">Edit Profile</button></a>
+                    <% if(user.website) {%>
+                    <a href="https://<%=user.website%>" target="_blank" style="color: var(--blue);">
+                        <span><%=user.website%> <ion-icon name="open-outline"
+                                style="--ionicon-stroke-width: 50px;margin-bottom: -.1rem;"></ion-icon></span>
+                    </a>
+                    <% } %>
                 </div>
             </div>
             <% if (user.account_uid ===  '4dbc4cb7-7ee6-4d04-a1ba-364ea6a5c949') {%>
@@ -68,6 +69,11 @@
                 <div class="jobs-comments-container">
                     <div class="jobs-comments__section">
                         <div class="jobs-container">
+                            <%if (jobs.length < 1) {%>
+                            <div class="announcement">
+                                <p>No jobs 👀</p>
+                            </div>
+                            <%}%>
                             <% for(let i = 0; i < jobs.length; i++) {%>
                             <div class="job-container">
                                 <% if(jobs[i].client_uid === user.user_uid){ %>
@@ -119,6 +125,11 @@
                                     </button>
                                     <% } %>
                                     <% }else { %>
+                                    <%if(jobs[i].review_uid) {%>
+                                    <button class="btn-small see-review">
+                                        See review
+                                    </button>
+                                    <% } %>
                                     <%if(jobs[i].feedback_uid) {%>
                                     <button class="btn-small see-feedback">
                                         See feedback
@@ -128,18 +139,19 @@
                                         Give feedback
                                     </button>
                                     <% } %>
-                                    <%if(jobs[i].review_uid) {%>
-                                    <button class="btn-small see-review">
-                                        See review
-                                    </button>
-                                    <% } %>
                                     <% } %>
                                 </div>
                             </div>
                             <% } %>
                         </div>
                         <div class="comments-container">
+                            <%if (jobs.length < 1) {%>
+                            <div class="announcement">
+                                <p>No reviews 👀</p>
+                            </div>
+                            <%}%>
                             <% for(let i = 0; i < jobs.length; i++) {%>
+                            <% if( jobs[i].review) {%>
                             <div class="job-review">
                                 <div class="see-review__contents">
                                     <% for(let j = 0; j < jobs[i].star; j++) { %>
@@ -151,12 +163,15 @@
                                     <p><%= jobs[i].rating%></p>
                                     <small><%= jobs[i].review%></small>
                                 </div>
+                                <% if( jobs[i].feedback) {%>
                                 <div class="job-feedback">
                                     <div class="see-feedback__contents">
                                         <small><%= jobs[i].feedback%></small>
                                     </div>
                                 </div>
+                                <% } %>
                             </div>
+                            <% } %>
                             <% } %>
                         </div>
                     </div>
@@ -170,7 +185,7 @@
                 </div>
             </div>
             <ul class="settings-list">
-                <a href="/profile/edit">
+                <a href="/myprofile/edit">
                     <li>
                         <ion-icon name="person-circle-outline"></ion-icon>
                         Edit your profile
@@ -182,12 +197,17 @@
                         Change Password
                     </li>
                 </a>
-                <form action="/logout">
+                <a href="">
                     <li>
-                        <ion-icon name="log-out-outline"></ion-icon>
-                        Log out
+                        <form action="/logout" method="POST">
+                            <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                            <button class="invis" type="submit">
+                                <ion-icon name="log-out-outline"></ion-icon>
+                                Log out
+                            </button>
+                        </form>
                     </li>
-                </form>
+                </a>
             </ul>
         </div>
     </div>
@@ -221,9 +241,18 @@
     </div>
     <div class="modal-bg3">
         <div class="settingsmodal">
-            <a href="/profile/edit"><ion-icon name="person-outline"></ion-icon> Edit Profile</a>
-            <a href="/profile/change-password"><ion-icon name="lock-closed-outline"></ion-icon> Change Password</a>
-            <a href="" class="not"><ion-icon name="log-out-outline"></ion-icon> logout</a>
+            <a href="/myprofile/edit">
+                <ion-icon name="person-outline"></ion-icon> Edit Profile
+            </a>
+            <a href="/profile/change-password">
+                <ion-icon name="lock-closed-outline"></ion-icon> Change Password
+            </a>
+            <form action="/logout" method="POST">
+                <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                <button class="invis">
+                    <ion-icon name="log-out-outline"></ion-icon> logout
+                </button>
+            </form>
             <span class="modal-close5">
                 <ion-icon name="close-circle-outline"></ion-icon>
             </span>

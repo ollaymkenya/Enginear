@@ -1,5 +1,8 @@
 <%- include('../includes/head.ejs')%>
 <div class="container">
+    <% if(errorMessage) { %>
+    <div class="user-message user-message--error"><%= errorMessage %></div>
+    <% } %>
     <div class="contacts-container" id="container">
         <div class="form-container sign-up-container">
             <form action="/signup" method="POST" autocomplete="off">
@@ -7,30 +10,36 @@
                 <label for="account">Account type</p>
                     <div class="radioInput">
                         <% for (let i = 0; i < accounts.length; i++) { %>
-                            <input type="radio" id="<%= accounts[i].account_name %>" name="account" value="<%= accounts[i].account_uid %>">
-                            <label for="<%= accounts[i].account_name %>"><%= accounts[i].account_name %></label>
+                        <input type="radio" id="<%= accounts[i].account_name %>" name="account"
+                            value="<%= accounts[i].account_uid %>">
+                        <label for="<%= accounts[i].account_name %>"><%= accounts[i].account_name %></label>
                         <% } %>
                     </div>
-                    <input class="" type="text" placeholder="First Name" name="firstName" />
-                    <input class="" type="text" placeholder="Last Name" name="lastName" />
-                    <input class="" type="email" placeholder="Email" name="email" />
-                    <input class="" type="tel" placeholder="Telephone Number" name="telephone" />
+                    <input class="" type="text" placeholder="First Name" name="firstName"
+                        value="<%= oldinput.first_name %>" />
+                    <input class="" type="text" placeholder="Last Name" name="lastName"
+                        value="<%= oldinput.last_name %>" />
+                    <input class="" type="email" placeholder="Email" name="email" value="<%= oldinput.email %>" />
+                    <input class="" type="tel" placeholder="Telephone Number" name="telephone"
+                        value="<%= oldinput.telephone %>" />
                     <label for="location">Location</label>
                     <select name="location" id="location">
                         <% for (let i = 0; i < addresses.length; i++) { %>
                         <option value="<%= addresses[i].address_uid %>"><%= addresses[i].address %></option>
                         <% } %>
                     </select>
-                    <input class="" type="password" placeholder="Password" name="password" value="" />
+                    <input class="" type="password" placeholder="Password" name="password"
+                        value="<%= oldinput.password %>" />
+                    <input type="hidden" name="_csrf" value="<%= csrfToken %>">
                     <button type="submit" class="btn btn-primary">Sign Up</button>
             </form>
         </div>
         <div class="form-container sign-in-container">
             <form action="/login" method="POST" autocomplete="off">
                 <h4>Sign in</h4>
-                <input type="email" placeholder="Email" name="email" />
-                <input type="password" placeholder="Password" name="password" />
-                <a href="/reset" class="danger">Forgot your password?</a>
+                <input type="email" placeholder="Email" name="email" value="<%= oldinput.email%>" />
+                <input type="password" placeholder="Password" name="password" value="<%= oldinput.password %>" />
+                <input type="hidden" name="_csrf" value="<%= csrfToken %>">
                 <button type="submit" class="btn btn-primary">Sign In</button>
             </form>
         </div>

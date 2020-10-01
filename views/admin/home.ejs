@@ -37,7 +37,9 @@
                     <div class="user-container__profile-footer">
                         <ul>
                             <li>
-                                <ion-icon name="person-outline"></ion-icon>
+                                <a href="/profile/<%= users[i].user_uid%>">
+                                    <ion-icon name="person-outline" style="color: var(--blue);"></ion-icon>
+                                </a>
                             </li>
                             <li>
                                 <% if(users[i].client_favorite_mechanic_uid  && currentUser.user_uid === users[i].client_uid) {%>
@@ -48,7 +50,7 @@
                                     <label for="users[i].user_uid">
                                         <button type="submit" class="icon-button"
                                             style="border: none;background: transparent;">
-                                            <ion-icon name="heart-outline" class="favorite"></ion-icon>
+                                            <ion-icon name="heart" class="favorite" style="color: orangered;"></ion-icon>
                                         </button>
                                     </label>
                                 </form>
@@ -60,7 +62,7 @@
                                     <label for="users[i].user_uid">
                                         <button type="submit" class="icon-button"
                                             style="border: none;background: transparent;">
-                                            <ion-icon name="heart-outline"></ion-icon>
+                                            <ion-icon name="heart-outline" style="color: orangered;"></ion-icon>
                                         </button>
                                     </label>
                                 </form>
@@ -70,15 +72,16 @@
                                 <form action="/chat" method="post">
                                     <button type="submit" class="icon-button"
                                         style="border: none;background: transparent;">
-                                        <ion-icon name="paper-plane-outline"></ion-icon>
+                                        <ion-icon name="paper-plane-outline" style="color: var(--blue);"></ion-icon>
                                         <input type="hidden" name="user" value="<%= users[i].user_uid%>">
                                         <input type="hidden" name="user2" value="<%=currentUser.user_uid%>">
                                     </button>
                                 </form>
                             </li>
-                            <button class="job-btn" data-userId="<%= users[i].user_uid %>" data-username ="<%= users[i].first_name %> <%= users[i].last_name %>">
+                            <button class="job-btn" data-userId="<%= users[i].user_uid %>"
+                                data-username="<%= users[i].first_name %> <%= users[i].last_name %>">
                                 <li class="job-btn_list-item">
-                                    <ion-icon name="briefcase-outline"></ion-icon>
+                                    <ion-icon name="briefcase" style="color: #784f28;"></ion-icon>
                                 </li>
                             </button>
                         </ul>
@@ -90,24 +93,27 @@
     </div>
     <div class="modal-bg">
         <div class="jobmodal">
-            <h4 class="modal-title">Give Job to</h4><h4 class="modal-title__name"></h4>
+            <h4 class="modal-title">Give Job to</h4>
+            <h4 class="modal-title__name"></h4>
             <form action="" method="POST" class="job-form">
                 <label for="typeOfService">Type Of Service</label>
                 <select name="typeOfService" id="typeOfService">
                     <% for(let i = 0; i < typesOfServices.length; i++) {%>
-                        <option value="<%= typesOfServices[i].type_of_service_uid%>"><%= typesOfServices[i].name%></option>
+                    <option value="<%= typesOfServices[i].type_of_service_uid%>"><%= typesOfServices[i].name%></option>
                     <% } %>
                 </select>
                 <label for="typeOfCar">Type Of Car</label>
                 <select name="typeOfCar" id="typeOfCar">
                     <% for(let i = 0; i < userCarTypes.length; i++) {%>
-                        <option value="<%= userCarTypes[i].type_of_car_uid%>"><%= userCarTypes[i].type_of_car_name%></option>
+                    <option value="<%= userCarTypes[i].type_of_car_uid%>"><%= userCarTypes[i].type_of_car_name%>
+                    </option>
                     <% } %>
                 </select>
                 <label for="brandOfCar">Brand Of Car</label>
                 <select name="brandOfCar" id="brandOfCar">
                     <% for(let i = 0; i < userCarBrands.length; i++) {%>
-                        <option value="<%= userCarBrands[i].brand_of_car_uid%>"><%= userCarBrands[i].brand_of_car_name%></option>
+                    <option value="<%= userCarBrands[i].brand_of_car_uid%>"><%= userCarBrands[i].brand_of_car_name%>
+                    </option>
                     <% } %>
                 </select>
                 <button type="submit" class="btn btn-primary modal-close2"> Give Job</button>

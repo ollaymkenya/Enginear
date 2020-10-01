@@ -7,6 +7,7 @@ var bodyParser = require('body-parser')
 const session = require('express-session');
 const pgSession = require('connect-pg-simple')(session);
 const multer = require("multer");
+const csrf = require('csurf');
 
 const fileStorage = multer.diskStorage({
     destination: (req, file, callb) => {
@@ -31,6 +32,7 @@ const io = require('socket.io')(http);
 const Message = require('./models/Message');
 
 app.use(bodyParser.urlencoded({ extended: false }))
+const csrfProtection = csrf();
 
 const siteRoutes = require('./routes/site.js');
 const authRoutes = require('./routes/auth.js');
@@ -65,6 +67,7 @@ const sessionConfig = {
 }
 
 app.use(session(sessionConfig));
+app.use(csrfProtection);
 
 app.use((req, res, next) => {
     if (!req.session.user) {
@@ -81,12 +84,18 @@ app.use((req, res, next) => {
         })
 })
 
+app.use((req, res, next) => {
+    res.locals.isAuthenticated = req.session.isLoggedIn;
+    res.locals.csrfToken = req.csrfToken();
+    next();
+});
+
 app.use(siteRoutes);
 app.use(authRoutes);
 app.use(adminRoutes);
 
 io.on('connection', (socket) => {
-    socket.on('joinRoom', ( {chatRoom} ) => {
+    socket.on('joinRoom', ({ chatRoom }) => {
         socket.join(chatRoom);
         //Listen for messages
         socket.on("userMessage", async (data) => {

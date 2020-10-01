@@ -6,19 +6,43 @@
             </div>
             <div class="col-6">
                 <ul class="d-flex flex-row justify-content-end align-items-center">
-                    <a href="/home">
-                        <li>
-                            <ion-icon name="home-outline"></ion-icon>
-                        </li>
-                    </a>
+                    <% if(user.account_uid !== "fbb3f0eb-a8a3-4ecc-8e44-5a92d15e7b7e"){ %>
+                        <a href="/">
+                            <li>
+                                <% if (path === '/home') { %>
+                                <ion-icon name="home"></ion-icon>
+                                <% } else {%>
+                                <ion-icon name="home-outline"></ion-icon>
+                                <% } %>
+                            </li>
+                        </a>
+                    <% } else { %>
+                        <a href="/home">
+                            <li>
+                                <% if (path === '/home') { %>
+                                <ion-icon name="home"></ion-icon>
+                                <% } else {%>
+                                <ion-icon name="home-outline"></ion-icon>
+                                <% } %>
+                            </li>
+                        </a>
+                    <% } %>
                     <a href="/chat">
                         <li>
+                            <% if (path === '/chat') { %>
+                            <ion-icon name="paper-plane"></ion-icon>
+                            <% } else {%>
                             <ion-icon name="paper-plane-outline"></ion-icon>
+                            <% } %>
                         </li>
                     </a>
                     <a href="/favorites">
                         <li>
+                            <% if (path === '/favorite') { %>
+                                <ion-icon name="heart" style="color: orangered;"></ion-icon>
+                            <% } else {%>
                             <ion-icon name="heart-outline"></ion-icon>
+                            <% } %>
                         </li>
                     </a>
                     <a href="/profile">

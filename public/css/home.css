@@ -108,11 +108,6 @@ label {
     --ionicon-stroke-width: 32px;
 }
 
-.favorite {
-    color: var(--red);
-    --ionicon-stroke-width: 100px;
-}
-
 .icon-button:focus,
 .icon-button:active {
     border: none;
@@ -200,4 +195,20 @@ label {
     top: 20px;
     right: 10px;
     cursor: pointer;
+}
+
+.announcement {
+    color: var(--white);
+    background-color: var(--blue);
+    display: flex;
+    align-items: center;
+    border-radius: 25px;
+    padding: .5rem;
+    height: fit-content;
+    margin-top: .5rem;
+}
+
+.announcement p{
+    font-weight: 400;
+    font-size: 1rem;
 }

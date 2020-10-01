@@ -327,3 +327,15 @@ footer li a:hover{
         font-size: 4vw;
     }
 }
+
+.user-message{
+    padding: .5rem;
+    margin: .5rem auto;
+    border: 1px solid #dbdbdb;
+    border-radius: 5px;
+}
+
+.user-message--error{
+    background-color: var(--red);
+    color: var(--white);
+}

@@ -23,9 +23,10 @@ class Review {
         const totalRating = await pool.query("SELECT enginear_uid, job.review_uid, review.star FROM job JOIN review ON review.review_uid = job.review_uid WHERE job.enginear_uid = $1", [id]);
         let totalUserRating = 0;
         for (let i = 0; i < totalRating.rows.length; i++) {
-            totalUserRating += totalRating.rows[i].star;
+            totalUserRating += parseInt(totalRating.rows[i].star);
         }
-        return totalUserRating/totalRating.rows.length;
+        const uRating = isNaN(totalUserRating/totalRating.rows.length) ? 0 : totalUserRating/totalRating.rows.length;
+        return uRating
     }
 }
 

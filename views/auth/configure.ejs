@@ -4,6 +4,9 @@
 
 <body>
 	<div class="container">
+		<% if(errorMessage) { %>
+		<div class="user-message user-message--error"><%= errorMessage %></div>
+		<% } %>
 		<h4>Hello <%= user.first_name %>, one more step to go !🛫</h4>
 		<span>Tell us more about yourself to have the best experience with us</span>
 		<div class="form-container">
@@ -13,7 +16,8 @@
 				<ul class="carType">
 					<% for(let i = 0; i < carTypes.length; i++) {%>
 					<li class="col-4 ">
-						<input type="checkbox" name="<%= carTypes[i].type_of_car_name %>" id="vehicle<%= i+1 %>" value="<%= carTypes[i].type_of_car_uid %>">
+						<input type="checkbox" name="<%= carTypes[i].type_of_car_name %>" id="vehicle<%= i+1 %>"
+							value="<%= carTypes[i].type_of_car_uid %>">
 						<div class="icon-box">
 							<label for="vehicle<%= i+1 %>" class="">
 								<emoji><%= emoji.get(carTypes[i].type_of_car_name) %></emoji>
@@ -27,12 +31,13 @@
 				<div class="check-box__container">
 					<ul class="ks-cboxtags">
 						<% for(let i= 0; i < carBrands.length; i++) {%>
-							<li><input type="checkbox" id="chechbox<%= i %>" name="<%= carBrands[i].brand_of_car_name %>" value="<%= carBrands[i].brand_of_car_uid %>"><label
+						<li><input type="checkbox" id="chechbox<%= i %>" name="<%= carBrands[i].brand_of_car_name %>"
+								value="<%= carBrands[i].brand_of_car_uid %>"><label
 								for="chechbox<%= i %>"><%= carBrands[i].brand_of_car_name %></label></li>
 						<% } %>
 					</ul>
 				</div>
-				<input type="submit" class="btn btn-primary">welcome 🎊🎊🎊</input>
+				<input type="submit" class="btn btn-primary" value="welcome 🎊🎊🎊">
 			</form>
 		</div>
 	</div>

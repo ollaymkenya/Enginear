@@ -1,3 +1,5 @@
+const { validationResult } = require("express-validator");
+
 const path = require("path");
 
 const User = require("../models/User");
@@ -83,7 +85,7 @@ exports.getChat = async (req, res, next) => {
         }
         res.render('admin/chat', {
             title: "Chats",
-            path: 'admin/chat',
+            path: '/chat',
             users: users,
             user: req.user.rows[0]
         })
@@ -149,7 +151,7 @@ exports.getChatUser = async (req, res, next) => {
         }
         res.render('admin/chatUser', {
             title: "ChatUser",
-            path: 'admin/chatUser',
+            path: '/chat',
             otherUser: otherUser.rows[0],
             users: users,
             chatRoom: req.params.chatRoomId,
@@ -208,6 +210,33 @@ exports.getProfile = async (req, res, next) => {
     }
 }
 
+exports.getUserProfile = async (req, res, next) => {
+    try {
+        const userId = req.params.userId;
+        const uzer = await User.getUser(userId);
+        const user = uzer.rows[0]
+        let jobs;
+        if (user.account_uid === "4dbc4cb7-7ee6-4d04-a1ba-364ea6a5c949") {
+            jobs = await Job.getEngJobs(user.user_uid);
+            let rating = await Review.getEngRating(user.user_uid);
+            let totalJobs = await Job.getJobsDone(user.user_uid);
+            user.jobs = totalJobs;
+            user.fullRating = rating;
+        } else {
+            jobs = await Job.getClientJobs(user.user_uid);
+        }
+        console.log(jobs);
+        res.render('admin/userProfile', {
+            title: 'Profile',
+            path: '/profile',
+            user: user,
+            jobs: jobs
+        });
+    } catch (error) {
+        console.log(error);
+    }
+}
+
 exports.getChangePassword = (req, res, next) => {
     res.render('admin/changePassword', {
         title: 'change password',
@@ -216,34 +245,58 @@ exports.getChangePassword = (req, res, next) => {
 }
 
 exports.editProfile = async (req, res, next) => {
-    const user = req.user.rows[0];
-    res.render('admin/editProfile', {
-        title: 'change password',
-        path: 'admin/editProfile',
-        user: user
-    });
+    try {
+        const user = req.user.rows[0];
+        res.render('admin/editProfile', {
+            title: 'change password',
+            path: 'admin/editProfile',
+            user: user,
+            errorMessage: ''
+        });
+    } catch (error) {
+        console.log(error);
+    }
 }
 
 exports.postEditProfile = async (req, res, next) => {
     const user = req.user.rows[0];
-    const email = req.body.email;
-    const site = req.body.site;
-    const telephone = req.body.telephone;
-    const image = path.join('profile', req.file.filename);
-    await User.editDetails(user.user_uid, email, site, telephone, image);
-    res.redirect('/profile');
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.render('admin/editProfile', {
+            title: 'change password',
+            path: 'admin/editProfile',
+            user: user,
+            errorMessage: errors.array()[0].msg
+        });
+    }
+    try {
+        const email = req.body.email;
+        const site = req.body.site;
+        const telephone = req.body.telephone;
+        let image;
+        console.log(req.file);
+        if (!req.file) {
+            image = user.profile_pic;
+            console.log(image);
+        } else {
+            image = path.join('profile', req.file.filename);
+        }
+        await User.editDetails(user.user_uid, email, site, telephone, image);
+        res.redirect('/profile');
+    } catch (error) {
+        console.log(error);
+    }
 }
 
 exports.postJob = async (req, res, next) => {
     try {
-        console.log(req.body);
         const enginearId = req.params.enginearId;
         const clientId = req.user.rows[0].user_uid;
         const typeOfServiceId = req.body.typeOfService;
         const typeOfCar = req.body.typeOfCar;
         const brandOfCar = req.body.brandOfCar;
         const newjob = await new Job(clientId, enginearId, typeOfCar, brandOfCar, typeOfServiceId);
-        const job = await newjob.save();
+        await newjob.save();
         res.redirect('/profile');
     } catch (error) {
         console.log(error);

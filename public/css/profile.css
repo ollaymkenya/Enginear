@@ -38,7 +38,7 @@
     margin-top: -2px;
 }
 
-.desktopcog{
+.desktopcog {
     cursor: pointer;
 }
 
@@ -189,6 +189,7 @@
     gap: .5rem;
     padding: .5rem;
     height: 100%;
+    align-content: stretch;
 }
 
 .jobs-container {
@@ -243,7 +244,7 @@
     border-radius: 3px;
     min-width: 80px;
     font-weight: 500;
-    background-color: var(--indigo);
+    background-color: var(--blue);
     color: var(--white);
 }
 
@@ -428,18 +429,18 @@
     position: relative;
 }
 
-.settingsmodal{
+.settingsmodal {
     align-items: flex-start;
     padding: 1rem 2rem;
 }
 
-.settingsmodal a:not(:last-child){
+.settingsmodal a:not(:last-child) {
     margin: .5rem 0;
     width: 100%;
     padding: 0;
 }
 
-.settingsmodal a:not(.not){
+.settingsmodal a:not(.not) {
     border-bottom: 1px solid #dbdbdb;
 }
 
@@ -483,8 +484,9 @@
 
 .job-review {
     border: 1px solid #dbdbdb;
-    height: fit-content;
     border-radius: 7px;
+    max-height: 250px;
+    align-self: stretch;
 }
 
 .job-review .job-feedback {
@@ -498,4 +500,31 @@
 
 span.checked {
     color: var(--orange);
+}
+
+.announcement {
+    color: var(--white);
+    background-color: var(--blue);
+    display: flex;
+    align-items: center;
+    border-radius: 25px;
+    padding: .5rem;
+    height: fit-content;
+}
+
+.announcement p{
+    font-weight: 400;
+    font-size: 1rem;
+}
+
+.invis{
+    background-color: transparent;
+    border: none;
+    display: flex;
+    align-items: center;
+}
+
+.invis:active,
+.invis:focus{
+    outline: none;
 }

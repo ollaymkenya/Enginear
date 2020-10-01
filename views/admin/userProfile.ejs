@@ -1,0 +1,165 @@
+<%- include('../includes/start.ejs')%>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="/css/admin.css">
+<link rel="stylesheet" href="/css/profile.css">
+</head>
+
+<body>
+    <%- include('../includes/adminnav.ejs')%>
+    <div class="container profilePage" id="move-left">
+        <div class="profile-container">
+            <div class="top-nav">
+                <a href="/home">
+                    <ion-icon name="home-outline"></ion-icon>
+                </a>
+                <p><%= user.first_name%> <%= user.last_name%></p>
+                <ion-icon name="cog-outline" onclick="moveLeft()"></ion-icon>
+            </div>
+            <div class="contacts-profile">
+                <img src="../<%= user.profile_pic %>" alt="">
+                <div class="contact-info">
+                    <div class="contact-info__name">
+                        <span><%= user.first_name%> <%= user.last_name%></span>
+                        <span>+254<%= user.telephone %></span>
+                        <span><%= user.email%></span>
+                    </div>
+                    <% if (user.account_uid ===  '4dbc4cb7-7ee6-4d04-a1ba-364ea6a5c949') {%>
+                    <div class="profile-stats none">
+                        <div class="profile-stat">
+                            <p><%= user.jobs %></p>
+                            <small>jobs</small>
+                        </div>
+                        <div class="profile-stat">
+                            <p><%= user.fullRating %></p>
+                            <small>rating</small>
+                        </div>
+                    </div>
+                    <% } %>
+                    <% if(user.website) {%>
+                    <a href="https://<%=user.website%>" target="_blank" style="color: var(--blue);">
+                        <span><%=user.website%> <ion-icon name="open-outline"
+                                style="--ionicon-stroke-width: 50px;margin-bottom: -.1rem;"></ion-icon></span>
+                    </a>
+                    <% } %>
+                </div>
+            </div>
+            <% if (user.account_uid ===  '4dbc4cb7-7ee6-4d04-a1ba-364ea6a5c949') {%>
+            <div class="profile-stats phone">
+                <div class="profile-stat">
+                    <p><%= user.jobs %></p>
+                    <small>jobs</small>
+                </div>
+                <div class="profile-stat">
+                    <p><%= user.fullRating %></p>
+                    <small>rating</small>
+                </div>
+            </div>
+            <% } %>
+            <div class="jobs-comments">
+                <div class="section-nav">
+                    <a class="jobs-tag">
+                        <ion-icon name="briefcase-outline"></ion-icon>
+                    </a>
+                    <a class="comments-tag">
+                        <ion-icon name="chatbox-ellipses-outline"></ion-icon>
+                    </a>
+                </div>
+                <div class="jobs-comments-container">
+                    <div class="jobs-comments__section">
+                        <div class="jobs-container">
+                            <%if (jobs.length < 1) {%>
+                            <div class="announcement">
+                                <p>No jobs for this user currently 👀</p>
+                            </div>
+                            <%}%>
+                            <% for(let i = 0; i < jobs.length; i++) {%>
+                            <div class="job-container">
+                                <% if(jobs[i].client_uid === user.user_uid){ %>
+                            <a href="/profile/<%= jobs[i].enginear_uid %>">
+                                <div class="job-container__header">
+                                    <ion-icon name="construct-outline"></ion-icon>
+                                    <p><%= jobs[i].first_name %> <%= jobs[i].last_name %></p>
+                                </div>
+                            </a>
+                            <% }else { %>
+                            <a href="/profile/<%= jobs[i].client_uid %>">
+                                <div class="job-container__header">
+                                    <ion-icon name="person-outline"></ion-icon>
+                                    <p><%= jobs[i].first_name %> <%= jobs[i].last_name %></p>
+                                </div>
+                            </a>
+                            <% } %>
+                            <div class="job-container__body">
+                                <div class="job-contents">
+                                    <p>Vehicle-type: <span><%= jobs[i].type_of_car_name %></span></p>
+                                    <p>Vehicle-brand:<span><%= jobs[i].brand_of_car_name %></span></p>
+                                    <p>Service: <span><%=  jobs[i].name %></span></p>
+                                    <small>Date: <%= jobs[i].time %></small>
+                                </div>
+                                <div class="see-review__contents">
+                                    <% for(let j = 0; j < jobs[i].star; j++) { %>
+                                    <span class="fa fa-star checked"></span>
+                                    <% } %>
+                                    <% for(let j = 0; j < (5 - jobs[i].star); j++) { %>
+                                    <span class="fa fa-star"></span>
+                                    <% } %>
+                                    <p><%= jobs[i].rating%></p>
+                                    <small><%= jobs[i].review%></small>
+                                </div>
+                                <div class="see-feedback__contents">
+                                    <small><%= jobs[i].feedback%></small>
+                                </div>
+                            </div>
+                            <div class="job-container__footer">
+                                <%if(jobs[i].review_uid) {%>
+                                <button class="btn-small see-review">
+                                    See review
+                                </button>
+                                <% } %>
+                                <%if(jobs[i].feedback_uid) {%>
+                                <button class="btn-small see-feedback">
+                                    See feedback
+                                </button>
+                                <% } %>
+                            </div>
+                        </div>
+                        <% } %>
+                    </div>
+                    <div class="comments-container">
+                        <%if (jobs.length < 1) {%>
+                        <div class="announcement">
+                            <p>No reviews for this user currently 👀</p>
+                        </div>
+                        <%}%>
+                            <% for(let i = 0; i < jobs.length; i++) {%>
+                        <% if( jobs[i].review) {%>
+                        <div class="job-review">
+                            <div class="see-review__contents">
+                                <% for(let j = 0; j < jobs[i].star; j++) { %>
+                                <span class="fa fa-star checked"></span>
+                                <% } %>
+                                <% for(let j = 0; j < (5 - jobs[i].star); j++) { %>
+                                <span class="fa fa-star"></span>
+                                <% } %>
+                                <p><%= jobs[i].rating%></p>
+                                <small><%= jobs[i].review%></small>
+                            </div>
+                            <% if( jobs[i].feedback) {%>
+                            <div class="job-feedback">
+                                <div class="see-feedback__contents">
+                                    <small><%= jobs[i].feedback%></small>
+                                </div>
+                            </div>
+                            <% } %>
+                        </div>
+                        <% } %>
+                        <% } %>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+    <%- include('../includes/bottomnav.ejs')%>
+    <script src="/js/profileUser.js"></script>
+    <%- include('../includes/end.ejs')%>

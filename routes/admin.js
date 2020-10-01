@@ -1,35 +1,61 @@
 const express = require('express');
+const { body, check } = require('express-validator');
 
 const router = express.Router();
 
 const adminControllers = require('../controllers/admin');
+const Auth = require('../middlewares/auth');
 
-router.get("/home", adminControllers.getHome);
+const User = require("../models/User");
 
-router.post("/home/:likeId", adminControllers.postLike);
+router.get("/home", Auth.isAuth, Auth.onlyClients, adminControllers.getHome);
 
-router.post("/home/removeFav/:unlikeId", adminControllers.postUnlike);
+router.post("/home/:likeId", Auth.isAuth, adminControllers.postLike);
 
-router.get("/chat", adminControllers.getChat);
+router.post("/home/removeFav/:unlikeId", Auth.isAuth, adminControllers.postUnlike);
 
-router.post("/chat", adminControllers.postChat);
+router.get("/chat", Auth.isAuth, adminControllers.getChat);
 
-router.get("/chat/:chatRoomId", adminControllers.getChatUser);
+router.post("/chat", Auth.isAuth, adminControllers.postChat);
 
-router.get("/favorites", adminControllers.getFavorites);
+router.get("/chat/:chatRoomId", Auth.isAuth, adminControllers.getChatUser);
 
-router.get("/profile", adminControllers.getProfile);
+router.get("/favorites", Auth.isAuth, adminControllers.getFavorites);
 
-router.get("/profile/change-password", adminControllers.getChangePassword);
+router.get("/profile", Auth.isAuth, adminControllers.getProfile);
 
-router.get("/profile/edit", adminControllers.editProfile);
+router.get("/profile/:userId", Auth.isAuth, Auth.onlyClients, adminControllers.getUserProfile);
 
-router.post("/profile/edit", adminControllers.postEditProfile);
+router.get("/profile/change-password", Auth.isAuth, adminControllers.getChangePassword);
 
-router.post("/job/:enginearId", adminControllers.postJob);
+router.get("/myprofile/edit", Auth.isAuth, adminControllers.editProfile);
 
-router.post("/review/:jobId", adminControllers.postReview);
+router.post("/profile/edit", Auth.isAuth, [
+    check('email')
+        .isEmail()
+        .withMessage("Please enter a valid email.")
+        .normalizeEmail()
+        .custom((value, { req }) => {
+            return User.getUserWithEmail(value)
+                .then((userDoc) => {
+                    if (userDoc.rows[0]) {
+                        return Promise.reject('User email exists already exists. Please pick a different one.')
+                    }
+                })
+        }),
+    body('site')
+        .isString()
+        .trim(),
+    body('telephone', 'Your telephone number should not be less than 10 characters')
+        .isLength({ min: 10 })
+        .isAlphanumeric()
+        .trim()
+], adminControllers.postEditProfile);
 
-router.post("/feedback/:jobId", adminControllers.postFeedback);
+router.post("/job/:enginearId", Auth.isAuth, adminControllers.postJob);
+
+router.post("/review/:jobId", Auth.isAuth, adminControllers.postReview);
+
+router.post("/feedback/:jobId", Auth.isAuth, adminControllers.postFeedback);
 
 module.exports = router;
