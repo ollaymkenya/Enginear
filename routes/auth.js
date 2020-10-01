@@ -14,13 +14,13 @@ router.post("/login", [
         .isEmail()
         .withMessage("Please enter a valid email.")
         .normalizeEmail(),
-    body('password', 'Your password should not be less than 3 characters')
+    body('password', 'Your password should not be less than 5 characters')
         .isLength({ min: 5 })
         .isAlphanumeric()
         .trim()
 ], authControllers.postLogin);
 
-router.post("/signup", Auth.alredayAuth, [
+router.post("/signup", [
     check('email')
         .isEmail()
         .withMessage("Please enter a valid email.")
@@ -45,15 +45,15 @@ router.post("/signup", Auth.alredayAuth, [
         .isLength({ min: 10 })
         .isAlphanumeric()
         .trim(),
-    body('password', 'Your password should not be less than 3 characters.')
+    body('password', 'Your password should not be less than 5 characters.')
         .isLength({ min: 5 })
         .isAlphanumeric()
         .trim()
 ], authControllers.postSignUp);
 
-router.get("/configure/:userId", Auth.alredayAuth, authControllers.configure);
+router.get("/configure/:userId", authControllers.configure);
 
-router.post("/configure", Auth.alredayAuth, authControllers.postConfigure);
+router.post("/configure", authControllers.postConfigure);
 
 router.post("/logout", Auth.isAuth, authControllers.postLogout);
 

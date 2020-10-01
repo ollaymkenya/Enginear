@@ -10,9 +10,9 @@ const User = require("../models/User");
 
 router.get("/home", Auth.isAuth, Auth.onlyClients, adminControllers.getHome);
 
-router.post("/home/:likeId", Auth.isAuth, adminControllers.postLike);
+router.post("/home/:likeId", Auth.isAuth, Auth.onlyClients, adminControllers.postLike);
 
-router.post("/home/removeFav/:unlikeId", Auth.isAuth, adminControllers.postUnlike);
+router.post("/home/removeFav/:unlikeId", Auth.isAuth, Auth.onlyClients, adminControllers.postUnlike);
 
 router.get("/chat", Auth.isAuth, adminControllers.getChat);
 
@@ -26,7 +26,22 @@ router.get("/profile", Auth.isAuth, adminControllers.getProfile);
 
 router.get("/profile/:userId", Auth.isAuth, Auth.onlyClients, adminControllers.getUserProfile);
 
-router.get("/profile/change-password", Auth.isAuth, adminControllers.getChangePassword);
+router.get("/change-password", Auth.isAuth, adminControllers.getChangePassword);
+
+router.post("/changePass", [
+    body('oldPassword', 'Your password should not be less than 5 characters.')
+        .isLength({ min: 5 })
+        .isAlphanumeric()
+        .trim(),
+    body('newPassword', 'Your password should not be less than 5 characters.')
+        .isLength({ min: 5 })
+        .isAlphanumeric()
+        .trim(),
+    body('confirmPassword', 'Your password should not be less than 5 characters.')
+        .isLength({ min: 5 })
+        .isAlphanumeric()
+        .trim()
+], Auth.isAuth, adminControllers.postChangePassword);
 
 router.get("/myprofile/edit", Auth.isAuth, adminControllers.editProfile);
 
@@ -39,7 +54,9 @@ router.post("/profile/edit", Auth.isAuth, [
             return User.getUserWithEmail(value)
                 .then((userDoc) => {
                     if (userDoc.rows[0]) {
-                        return Promise.reject('User email exists already exists. Please pick a different one.')
+                        if (userDoc.rows[0].email !== value) {
+                            return Promise.reject('User email exists already exists. Please pick a different one.')
+                        }
                     }
                 })
         }),
@@ -52,10 +69,10 @@ router.post("/profile/edit", Auth.isAuth, [
         .trim()
 ], adminControllers.postEditProfile);
 
-router.post("/job/:enginearId", Auth.isAuth, adminControllers.postJob);
+router.post("/job/:enginearId", Auth.isAuth, Auth.onlyClients, adminControllers.postJob);
 
-router.post("/review/:jobId", Auth.isAuth, adminControllers.postReview);
+router.post("/review/:jobId", Auth.isAuth, Auth.onlyClients, adminControllers.postReview);
 
-router.post("/feedback/:jobId", Auth.isAuth, adminControllers.postFeedback);
+router.post("/feedback/:jobId", Auth.isAuth, Auth.onlyEnginears, adminControllers.postFeedback);
 
 module.exports = router;

@@ -191,7 +191,7 @@
                         Edit your profile
                     </li>
                 </a>
-                <a href="/profile/change-password">
+                <a href="/change-password">
                     <li>
                         <ion-icon name="lock-closed-outline"></ion-icon>
                         Change Password
@@ -220,6 +220,7 @@
                 <label for="comment">Say something about your rating</label>
                 <textarea name="comment" id="" cols="30" rows="10"></textarea>
                 <input type="hidden" name="ratingInput" id="ratingInput" value="Awesome Experience">
+                <input type="hidden" name="_csrf" value="<%= csrfToken %>">
                 <button type="submit" class="btn btn-primary modal-close2"> Make comment</button>
             </form>
             <span class="modal-close">
@@ -232,6 +233,7 @@
             <form action="" method="POST" class="feedback-form">
                 <label for="comment">Reply something to your client</label>
                 <textarea name="feedback" id="" cols="30" rows="10"></textarea>
+                <input type="hidden" name="_csrf" value="<%= csrfToken %>">
                 <button type="submit" class="btn btn-primary modal-close4"> Give feedback</button>
             </form>
             <span class="modal-close3">
@@ -244,7 +246,7 @@
             <a href="/myprofile/edit">
                 <ion-icon name="person-outline"></ion-icon> Edit Profile
             </a>
-            <a href="/profile/change-password">
+            <a href="/change-password">
                 <ion-icon name="lock-closed-outline"></ion-icon> Change Password
             </a>
             <form action="/logout" method="POST">

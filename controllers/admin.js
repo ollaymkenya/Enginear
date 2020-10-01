@@ -14,6 +14,8 @@ const Job = require("../models/Job");
 const Review = require("../models/Review");
 const Feedback = require("../models/Feedback");
 
+const bcrpyt = require('bcryptjs');
+
 exports.getHome = async (req, res, next) => {
     const typesOfServices = await TypeOfService.getAll();
     const userCarTypes = await UserTypes.getAllUsersCars(req.user.rows[0].user_uid);
@@ -41,7 +43,7 @@ exports.getHome = async (req, res, next) => {
             user: req.user.rows[0]
         });
     } catch (error) {
-        console.log(error);
+        res.redirect('/500');
     }
 }
 
@@ -90,7 +92,7 @@ exports.getChat = async (req, res, next) => {
             user: req.user.rows[0]
         })
     } catch (error) {
-        console.log(error);
+        res.redirect('/500');
     }
 }
 
@@ -110,7 +112,7 @@ exports.postChat = async (req, res, next) => {
         await newUserChatRoom.save();
         res.redirect(`/chat/${newChatRoom.id}`);
     } catch (error) {
-        console.log(error);
+        res.redirect('/500');
     }
 }
 
@@ -160,30 +162,45 @@ exports.getChatUser = async (req, res, next) => {
             user: req.user.rows[0]
         })
     } catch (error) {
-        console.log(error);
+        res.redirect('/500');
     }
 }
 
 exports.getFavorites = async (req, res, next) => {
+    const user = req.user.rows[0];
     const typesOfServices = await TypeOfService.getAll();
     const userCarTypes = await UserTypes.getAllUsersCars(req.user.rows[0].user_uid);
     const userCarBrands = await UserBrands.getAllUsersBrands(req.user.rows[0].user_uid);
-    const userFavs = await User.getClientFavEnginears(req.user.rows[0].user_uid);
-    const users = [];
-    for (let i = 0; i < userFavs.length; i++) {
-        const eginearData = await User.getUser(userFavs[i].enginear_uid);
-        users.push(eginearData.rows[0]);
+    let userFavs;
+    try {
+        if (user.account_uid === "4dbc4cb7-7ee6-4d04-a1ba-364ea6a5c949") {
+            userFavs = await ClientFavoriteMechanic.getEnginearsFavClients(req.user.rows[0].user_uid);
+        } else {
+            userFavs = await ClientFavoriteMechanic.getClientFavEnginears(req.user.rows[0].user_uid);
+        }
+        const users = [];
+        for (let i = 0; i < userFavs.length; i++) {
+            if (user.account_uid === "4dbc4cb7-7ee6-4d04-a1ba-364ea6a5c949") {
+                const eginearData = await User.getUser(userFavs[i].client_uid);
+                users.push(eginearData.rows[0]);
+            } else {
+                const eginearData = await User.getUser(userFavs[i].enginear_uid);
+                users.push(eginearData.rows[0]);
+            }
+        }
+        res.render('admin/favorite', {
+            title: 'Favorites',
+            path: '/favorite',
+            users: users,
+            currentUser: req.user.rows[0],
+            typesOfServices,
+            userCarTypes,
+            userCarBrands,
+            user: req.user.rows[0]
+        });
+    } catch (error) {
+        res.redirect('/500');
     }
-    res.render('admin/favorite', {
-        title: 'Favorites',
-        path: '/favorite',
-        users: users,
-        currentUser: req.user.rows[0],
-        typesOfServices,
-        userCarTypes,
-        userCarBrands,
-        user: req.user.rows[0]
-    });
 }
 
 exports.getProfile = async (req, res, next) => {
@@ -206,7 +223,7 @@ exports.getProfile = async (req, res, next) => {
             jobs: jobs
         });
     } catch (error) {
-        console.log(error);
+        res.redirect('/500');
     }
 }
 
@@ -225,7 +242,6 @@ exports.getUserProfile = async (req, res, next) => {
         } else {
             jobs = await Job.getClientJobs(user.user_uid);
         }
-        console.log(jobs);
         res.render('admin/userProfile', {
             title: 'Profile',
             path: '/profile',
@@ -233,28 +249,71 @@ exports.getUserProfile = async (req, res, next) => {
             jobs: jobs
         });
     } catch (error) {
-        console.log(error);
+        res.redirect('/500');
     }
 }
 
 exports.getChangePassword = (req, res, next) => {
+    const user = req.user.rows[0];
     res.render('admin/changePassword', {
         title: 'change password',
-        path: 'admin/changePassword'
+        path: 'admin/changePassword',
+        user: user,
+        errorMessage: ''
     });
+}
+
+
+exports.postChangePassword = async (req, res, next) => {
+    const errors = validationResult(req);
+    const user = req.user.rows[0]
+    const currentUser = await User.getUser(user.user_uid);
+    const authPassword = await bcrpyt.compare(req.body.oldPassword, currentUser.rows[0].password);
+    try {
+        if (!authPassword) {
+            return res.render('admin/changePassword', {
+                title: 'change password',
+                path: 'admin/changePassword',
+                user: user,
+                errorMessage: 'Input your valid old password'
+            });
+        }
+        if (req.body.newPassword !== req.body.confirmPassword) {
+            return res.render('admin/changePassword', {
+                title: 'change password',
+                path: 'admin/changePassword',
+                user: user,
+                errorMessage: 'Make sure your confirm password and new password are equal'
+            });
+        }
+        if (!errors.isEmpty()) {
+            return res.render('admin/changePassword', {
+                title: 'change password',
+                path: 'admin/changePassword',
+                user: user,
+                errorMessage: errors.array()[0].msg
+            });
+        }
+    } catch (error) {
+        res.redirect('/500');
+    }
+    const newPassword = req.body.newPassword;
+    const newHashedPassword = await bcrpyt.hash(newPassword, 12);
+    await User.changePassword(user.user_uid, newHashedPassword);
+    res.redirect("/profile");
 }
 
 exports.editProfile = async (req, res, next) => {
     try {
         const user = req.user.rows[0];
         res.render('admin/editProfile', {
-            title: 'change password',
+            title: 'Edit Profile',
             path: 'admin/editProfile',
             user: user,
             errorMessage: ''
         });
     } catch (error) {
-        console.log(error);
+        res.redirect('/500');
     }
 }
 
@@ -274,17 +333,15 @@ exports.postEditProfile = async (req, res, next) => {
         const site = req.body.site;
         const telephone = req.body.telephone;
         let image;
-        console.log(req.file);
         if (!req.file) {
             image = user.profile_pic;
-            console.log(image);
         } else {
             image = path.join('profile', req.file.filename);
         }
         await User.editDetails(user.user_uid, email, site, telephone, image);
         res.redirect('/profile');
     } catch (error) {
-        console.log(error);
+        res.redirect('/500');
     }
 }
 
@@ -299,7 +356,7 @@ exports.postJob = async (req, res, next) => {
         await newjob.save();
         res.redirect('/profile');
     } catch (error) {
-        console.log(error);
+        res.redirect('/500');
     }
 }
 
@@ -313,7 +370,7 @@ exports.postReview = async (req, res, next) => {
         await Job.addReview(req.params.jobId, myReview.review_uid);
         res.redirect("/profile");
     } catch (error) {
-        console.log(error);
+        res.redirect('/500');
     }
 }
 
@@ -325,6 +382,6 @@ exports.postFeedback = async (req, res, next) => {
         await Job.addFeedback(req.params.jobId, myFeedback.feedback_uid);
         res.redirect("/profile");
     } catch (error) {
-        console.log(error);
+        res.redirect('/500');
     }
 }

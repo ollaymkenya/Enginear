@@ -18,11 +18,11 @@
                 </div>
                 <ul class="contacts-body__list">
                     <% if (users.length === 0) {%>
-                        <div class="annoncement-text">
-                            <p>Click on a users' <ion-icon name="paper-plane-outline"></ion-icon> icon to
-                                chat with them!</p>
-                        </div>
-                        <% } %>
+                    <div class="annoncement-text">
+                        <p>Click on a users' <ion-icon name="paper-plane-outline"></ion-icon> icon to
+                            chat with them!</p>
+                    </div>
+                    <% } %>
                     <% for (let i = 0; i < users.length; i++) {%>
                     <li>
                         <a href="chat/<%= users[i].chatroom_uid %>">
@@ -30,7 +30,11 @@
                                 <img src="../<%= users[i].profile_pic %>" alt="">
                                 <div class="contact-info">
                                     <small><%= users[i].first_name%> <%= users[i].last_name%></small>
-                                    <small>online</small>
+                                    <% if(!users[i].online){ %>
+                                    <small id="span" id="status">offline</small>
+                                    <% }else{ %>
+                                    <small style="color: green;"v id="status">online</small>
+                                    <% } %>
                                 </div>
                             </div>
                         </a>
@@ -43,6 +47,7 @@
                     <div class="annoncement-text">
                         <p>Click on a users' <ion-icon name="paper-plane-outline"></ion-icon> icon to
                             chat with them!</p>
+                            <input type="hidden" id="currentUser" value="<%= user.user_uid%>">
                     </div>
                 </div>
             </div>

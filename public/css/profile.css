@@ -510,11 +510,13 @@ span.checked {
     border-radius: 25px;
     padding: .5rem;
     height: fit-content;
+    max-height: 3rem;
 }
 
 .announcement p{
     font-weight: 400;
     font-size: 1rem;
+    height: fit-content;
 }
 
 .invis{

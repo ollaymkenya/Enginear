@@ -40,29 +40,33 @@ exports.postLogin = async (req, res, next) => {
     const errors = validationResult(req);
     const addresses = await pool.query("SELECT * FROM address");
     const accounts = await pool.query("SELECT * FROM account");
-    if (!errors.isEmpty()) {
-        return res
-            .render("auth/login", {
-                title: "Login SignUp",
-                path: "/login",
-                addresses: addresses.rows,
-                accounts: accounts.rows,
-                oldinput: {
-                    email: email,
-                    password: password,
-                    telephone: '',
-                },
-                errorMessage: errors.array()[0].msg
-            });
-    }
-    if (!user) {
-        return res.redirect('/login');
-    }
-    const authenticate = await bcrpyt.compare(password, user.rows[0].password);
-    if (authenticate) {
-        req.session.isLoggedIn = true;
-        req.session.user = user;
-        return res.redirect("/home");
+    try {
+        if (!errors.isEmpty()) {
+            return res
+                .render("auth/login", {
+                    title: "Login SignUp",
+                    path: "/login",
+                    addresses: addresses.rows,
+                    accounts: accounts.rows,
+                    oldinput: {
+                        email: email,
+                        password: password,
+                        telephone: '',
+                    },
+                    errorMessage: errors.array()[0].msg
+                });
+        }
+        if (!user) {
+            return res.redirect('/login');
+        }
+        const authenticate = await bcrpyt.compare(password, user.rows[0].password);
+        if (authenticate) {
+            req.session.isLoggedIn = true;
+            req.session.user = user;
+            return res.redirect("/home");
+        }
+    } catch (error) {
+        res.redirect('/500');
     }
 };
 
@@ -114,7 +118,6 @@ exports.postSignUp = async (req, res, next) => {
             });
     }
     try {
-        console.log(req.body);
         const user = new User(first_name, last_name, email, telephone, account, location, password);
         const newUser = await user.save();
         req.session.isLoggedIn = true;
@@ -122,7 +125,7 @@ exports.postSignUp = async (req, res, next) => {
         res.redirect(`/configure/${newUser.rows[0].user_uid}`);
     }
     catch (err) {
-        console.log(err);
+        res.redirect('/500');
     }
 };
 
@@ -143,7 +146,7 @@ exports.configure = async (req, res, next) => {
         });
     }
     catch (err) {
-        console.log(err);
+        res.redirect('/500');
     }
 };
 
@@ -151,29 +154,36 @@ exports.postConfigure = async (req, res, next) => {
     const user = req.user.rows[0];
     const carTypes = await CarType.getCarTypes();
     const carBrands = await CarBrand.getCarBrands();
-    if (Object.keys(req.body).length === 0) {
-        return res.render("auth/configure", {
-            title: "Configure",
-            path: "/configure",
-            user: user,
-            carTypes: carTypes,
-            carBrands: carBrands,
-            emoji: emoji,
-            errorMessage: 'Please choose a car type and a car brand'
-        });
-    }
-    console.log(req.body);
-    const brandTypes = Object.entries(req.body);
-    for (let i = 0; i < brandTypes.length; i++) {
-        if (brandTypes[i][0] === "car" || brandTypes[i][0] === "minibus" || brandTypes[i][0] === "truck") {
-            const userType = new UserTypes(user.user_uid, brandTypes[i][1]);
-            userType.save();
-        } else {
-            const userBrand = new UserBrands(user.user_uid, brandTypes[i][1]);
-            userBrand.save();
+    try {
+        if (Object.keys(req.body).length === 0) {
+            return res.render("auth/configure", {
+                title: "Configure",
+                path: "/configure",
+                user: user,
+                carTypes: carTypes,
+                carBrands: carBrands,
+                emoji: emoji,
+                errorMessage: 'Please choose a car type and a car brand'
+            });
         }
+        const brandTypes = Object.entries(req.body);
+        for (let i = 0; i < brandTypes.length - 1; i++) {
+            if (brandTypes[i][0] === "car" || brandTypes[i][0] === "minibus" || brandTypes[i][0] === "truck") {
+                const userType = await new UserTypes(user.user_uid, brandTypes[i][1]);
+                await userType.save();
+            } else {
+                const userBrand = await new UserBrands(user.user_uid, brandTypes[i][1]);
+                await userBrand.save();
+            }
+        }
+        if (req.user.rows[0].account_uid === '4dbc4cb7-7ee6-4d04-a1ba-364ea6a5c949') {
+            res.redirect("/profile");
+        } else {
+            res.redirect("/home");
+        }
+    } catch (error) {
+        res.redirect('/500');
     }
-    res.redirect("/home");
 };
 
 exports.postLogout = (req, res, next) => {

@@ -30,6 +30,7 @@ const http = require('http').createServer(app);
 const io = require('socket.io')(http);
 
 const Message = require('./models/Message');
+const User = require("./models/User");
 
 app.use(bodyParser.urlencoded({ extended: false }))
 const csrfProtection = csrf();
@@ -37,6 +38,7 @@ const csrfProtection = csrf();
 const siteRoutes = require('./routes/site.js');
 const authRoutes = require('./routes/auth.js');
 const adminRoutes = require('./routes/admin.js');
+const errorRoutes = require('./controllers/error.js');
 
 //setting up where the views will be.
 app.set("views", "./views");
@@ -95,16 +97,29 @@ app.use(authRoutes);
 app.use(adminRoutes);
 
 io.on('connection', (socket) => {
-    socket.on('joinRoom', ({ chatRoom }) => {
-        socket.join(chatRoom);
-        //Listen for messages
+    socket.on('joinRoom', async (chatRoomInfo) => {
+        socket.join(chatRoomInfo.chatRoom);
+        const loggedUser = await User.getUser(chatRoomInfo.user);
+        await User.changeOnline(loggedUser.rows[0].user_uid, true);
+        const online = {online: 'online', id: loggedUser.rows[0].user_uid}
+        io.to(chatRoomInfo.chatRoom).emit("onstatus", online);
+        io.emit("onstatus", online);
         socket.on("userMessage", async (data) => {
             const newMessage = await new Message(data.from, data.to, data.message, data.chatRoom);
             const message = await newMessage.save();
-            io.to(chatRoom).emit("userMessage", message);
+            io.to(chatRoomInfo.chatRoom).emit("userMessage", message);
         })
+        socket.on('disconnect', async () => {
+            await User.changeOnline(loggedUser.rows[0].user_uid, false);
+            console.log(`${loggedUser.rows[0].email} has logged out`);
+            io.to(chatRoomInfo.chatRoom).emit("offstatus", 'offline');
+            io.emit("offstatus", 'offline');
+        });
     })
 })
+
+// catching 404 errors
+app.use(errorRoutes);
 
 http.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`)

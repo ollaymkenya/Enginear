@@ -17,11 +17,19 @@
         </div>
         <div class="main-user__container-block">
             <%if (users.length < 1) {%>
-            <div class="announcement">
-                <p>Click on the <ion-icon name="heart-outline" style="margin-bottom: -.1rem;"></ion-icon> icon on a user to add them to your favorites</p>
-            </div>
+            <% if(user.account_uid === "4dbc4cb7-7ee6-4d04-a1ba-364ea6a5c949"){%>
+                <div class="announcement">
+                    <p>Clients are yet to find out what they are missing from you</p>
+                </div>
+            <% }else { %>
+                <div class="announcement">
+                    <p>Click on the <ion-icon name="heart-outline" style="margin-bottom: -.1rem;"></ion-icon> icon on a user
+                        to add them to your favorites</p>
+                </div>
+            <% } %>
             <%}%>
             <% for (let i = 0; i < users.length; i++) { %>
+            <% if(users[i].account_uid === "4dbc4cb7-7ee6-4d04-a1ba-364ea6a5c949"){%>
             <div class="user-container">
                 <div class="user-container__profile">
                     <div class="user-container__profile_header">
@@ -43,6 +51,7 @@
                                     id="like<%= users[i].user_uid%>">
                                     <input type="checkbox" name="<%= users[i].user_uid%>"
                                         data-userId="<%= users[i].user_uid%>" value="<%= users[i].user_uid%>">
+                                    <input type="hidden" name="_csrf" value="<%= csrfToken %>">
                                     <label for="users[i].user_uid">
                                         <button type="submit" class="icon-button"
                                             style="border: none;background: transparent;">
@@ -54,6 +63,7 @@
                             </li>
                             <li>
                                 <form action="/chat" method="post">
+                                    <input type="hidden" name="_csrf" value="<%= csrfToken %>">
                                     <button type="submit" class="icon-button"
                                         style="border: none;background: transparent;">
                                         <ion-icon name="paper-plane-outline" style="color: var(--blue);"></ion-icon>
@@ -72,6 +82,34 @@
                     </div>
                 </div>
             </div>
+            <% }else{%>
+            <div class="user-container">
+                <div class="user-container__profile">
+                    <div class="user-container__profile_header">
+                        <div class="profile-header__name">
+                            <img src="<%= users[i].profile_pic %>" alt="">
+                            <p><%= users[i].first_name %> <%= users[i].last_name %></p>
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="user-container__profile-footer">
+                        <ul>
+                            <li>
+                                <form action="/chat" method="post">
+                                    <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                                    <button type="submit" class="icon-button"
+                                        style="border: none;background: transparent;">
+                                        <ion-icon name="paper-plane-outline" style="color: var(--blue);"></ion-icon>
+                                        <input type="hidden" name="user" value="<%= users[i].user_uid%>">
+                                        <input type="hidden" name="user2" value="<%=currentUser.user_uid%>">
+                                    </button>
+                                </form>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <% }%>
             <% } %>
         </div>
     </div>
@@ -100,6 +138,7 @@
                     </option>
                     <% } %>
                 </select>
+                <input type="hidden" name="_csrf" value="<%= csrfToken %>">
                 <button type="submit" class="btn btn-primary modal-close2"> Give Job</button>
             </form>
             <span class="modal-close">

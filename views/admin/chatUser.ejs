@@ -21,7 +21,11 @@
                                 <img src="../<%= users[i].profile_pic %>" alt="">
                                 <div class="contact-info">
                                     <small><%= users[i].first_name%> <%= users[i].last_name%></small>
-                                    <small>online</small>
+                                    <% if(!users[i].online){ %>
+                                    <small id="status">offline</small>
+                                    <% }else{ %>
+                                    <small style="color: green;" id="status">online</small>
+                                    <% } %>
                                 </div>
                             </div>
                         </a>
@@ -38,14 +42,19 @@
                         <img src="../<%= otherUser.profile_pic %>" alt="">
                         <div class="chats-title__info">
                             <small><%= otherUser.first_name%> <%= otherUser.last_name%></small>
-                            <small>online</small>
+                            <% if(!otherUser.online){ %>
+                            <small id="status1">offline</small>
+                            <% }else{ %>
+                            <small style="color: green;" id="status1">online</small>
+                            <% } %>
                         </div>
                     </div>
                 </div>
                 <div class="chat-container__body">
                     <div class="chat-container__body-texts" id="output">
                         <%for (let i = 0; i < messages.length; i++) {%>
-                        <div class="<%= messages[i].from_uid === currentUser? 'message-chat chat-home': 'message-chat chat-away'%>">
+                        <div
+                            class="<%= messages[i].from_uid === currentUser? 'message-chat chat-home': 'message-chat chat-away'%>">
                             <p><%= messages[i].message %></p>
                             <small><%= messages[i].time %></small>
                         </div>
@@ -57,6 +66,7 @@
                             <input type="hidden" name="chatRoom" value="<%= chatRoom %>" id="chatRoom">
                         <input type="hidden" name="otherUser" value="<%= otherUser.user_uid %>" id="otherUser">
                         <input type="hidden" name="currentUser" id="currentUser" value="<%= currentUser %>">
+                        <input type="hidden" name="_csrf" value="<%= csrfToken %>">
                         <button id="sendMessage">
                             <ion-icon name="paper-plane-outline"></ion-icon>
                         </button>

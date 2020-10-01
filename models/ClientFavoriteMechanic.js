@@ -14,7 +14,12 @@ class ClentFavoriteMechanic {
     }
 
     static async getClientFavEnginears(id) {
-        const cFes = await pool.query("SELECT * FROM uzer JOIN ON client_favorite_mechanic JOIN uzer ON user_uid = client_favorite_mechanic.client_uid WHERE uzer.user_uid = $1",[id]);
+        const cFes = await pool.query("SELECT * FROM uzer JOIN client_favorite_mechanic ON client_favorite_mechanic.client_uid = uzer.user_uid  WHERE uzer.user_uid = $1",[id]);
+        return cFes.rows;
+    }
+
+    static async getEnginearsFavClients(id) {
+        const cFes = await pool.query("SELECT * FROM uzer JOIN client_favorite_mechanic ON client_favorite_mechanic.enginear_uid = uzer.user_uid WHERE uzer.user_uid = $1",[id]);
         return cFes.rows;
     }
 

@@ -7,8 +7,8 @@
     <%- include('../includes/adminnav.ejs')%>
     <div class="container passwordPage">
         <% if(errorMessage) { %>
-            <div class="user-message user-message--error"><%= errorMessage %></div>
-            <% } %>
+        <div class="user-message user-message--error"><%= errorMessage %></div>
+        <% } %>
         <div class="top-nav">
             <a href="/profile">
                 <ion-icon name="chevron-back-outline"></ion-icon>
@@ -21,8 +21,9 @@
             </div>
             <input type="file" name="image" id="" value="<%= user.profile_pic%>">
             <input type="text" name="email" placeholder="Your email" value="<%= user.email%>">
-            <input type="text" name="site" placeholder="" value ="<%= user.website? user.website :''%>">
-            <input type="tel" name="telephone" placeholder= "" value ="0<%=user.telephone%>">
+            <input type="text" name="site" placeholder="" value="<%= user.website? user.website :''%>">
+            <input type="tel" name="telephone" placeholder="" value="0<%=user.telephone%>">
+            <input type="hidden" name="_csrf" value="<%= csrfToken %>">
             <input type="submit" value="Edit">
         </form>
     </div>

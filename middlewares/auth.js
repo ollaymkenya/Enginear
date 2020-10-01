@@ -20,7 +20,6 @@ exports.onlyEnginears = (req, res, next) => {
 }
 
 exports.onlyClients = (req, res, next) => {
-    console.log(req.user.rows[0].account_uid);
     if (req.user.rows[0].account_uid !== "fbb3f0eb-a8a3-4ecc-8e44-5a92d15e7b7e") {
         return res.redirect('/profile');
     }
